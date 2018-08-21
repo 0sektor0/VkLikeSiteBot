@@ -8,11 +8,11 @@ namespace VkLikeSiteBot
     {
         static void Main(string[] args)
         {
-            string login = "+79104876472";
-            string pass = "Ra_965211-de";
-            SiteAuthentificator siteAuthentificator = new SiteAuthentificator();
+            string login = "+79258465151";
+            string pass = "YOG_965211-sot";
+            SiteAuthentificator siteAuthentificator = new SiteAuthentificator(login, pass);
 
-            siteAuthentificator.Authentificate(login, pass);
+            siteAuthentificator.Authentificate();
 
             string uid = "472951660";
             string token = "202a38e8f5414603373942f783acf7ec";

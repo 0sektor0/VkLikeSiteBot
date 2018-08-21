@@ -26,7 +26,7 @@ namespace VkLikeSiteBot
 
             HttpClientHandler handler = new HttpClientHandler
             {
-                AllowAutoRedirect = false,
+                AllowAutoRedirect = true,
                 UseCookies = true,
                 CookieContainer = _cookieContainer
             };
@@ -78,37 +78,23 @@ namespace VkLikeSiteBot
                 "&icons_16=" +
                 "&theme=classic" +
                 "&client=");
-
+            
             HttpResponseMessage response = _httpClient.SendAsync(request).Result;
-            if (response.StatusCode != HttpStatusCode.Found)
-                throw new Exception("Authentification failed");
-
-            //4th request to get new auth form
-            request = new HttpRequestMessage();
-            request.RequestUri = new Uri(response.Headers.Location.ToString());
-
-            response = _httpClient.SendAsync(request).Result;
             string authentificateFormHtml = response.Content.ReadAsStringAsync().Result;
 
-            //5th request to send authorize data to vk
+            //4th request to authorize on vk
             request = new HttpRequestMessage();
             request.RequestUri = new Uri("https://login.vk.com/?act=login&soft=1");
             request.Content = CreateVkAuthentificatePostData(authentificateFormHtml);
             request.Method = HttpMethod.Post;
             
             response = _httpClient.SendAsync(request).Result;
-            if (response.StatusCode != HttpStatusCode.Found)
-                throw new Exception("Authentification failed");
 
-            //6th request to get location
+            //5th request to get site token
             request = new HttpRequestMessage();
-            request.RequestUri = new Uri(response.Headers.Location.ToString());
+            request.RequestUri = new Uri("https://v-like.ru/");
 
             response = _httpClient.SendAsync(request).Result;
-            if (response.StatusCode != HttpStatusCode.Found)
-                throw new Exception("Authentification failed");
-
-            //
 
             return null;
         }
@@ -125,7 +111,7 @@ namespace VkLikeSiteBot
             List<KeyValuePair<string, string>> data = new List<KeyValuePair<string, string>>();
 
             foreach (Match match in matches)
-                data.Add(new KeyValuePair<string, string>(match.Groups[0].Value, match.Groups[1].Value));
+                data.Add(new KeyValuePair<string, string>(match.Groups[1].Value, match.Groups[2].Value));
 
             return data;
         }
