@@ -9,5 +9,13 @@ namespace VkLikeSiteBot.Models
         public string GroupUrl;
 
         public string Api;
+
+        public override string ToString()
+        {
+            return $"TaskId: {TaskId}" +
+                   $"\nGroupId: {GroupId}" +
+                   $"\nGroupUrl: {GroupUrl}" +
+                   $"\nApi: {Api}";
+        }
     }
 }
