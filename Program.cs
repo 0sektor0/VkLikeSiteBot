@@ -61,8 +61,8 @@ namespace VkLikeSiteBot
                 catch(Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    Console.WriteLine("30 min sleep");
-                    Thread.Sleep(30 * 60 * 1000);
+                    Console.WriteLine("10 min sleep");
+                    Thread.Sleep(10 * 60 * 1000);
                 }
             }
         }
