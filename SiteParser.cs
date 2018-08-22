@@ -1,30 +1,49 @@
 using VkLikeSiteBot.Models;
 using VkLikeSiteBot.Interfaces;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 
 
 namespace VkLikeSiteBot
 {
-    public class SiteParser : ISiteParser
+    public class SiteParser
     {
-        public Result<BotTask> Parse(string html)
+        public BotJoinTask ParseJoinTask(string html)
         {
             Regex regex = new Regex(@"doCompany\((.+),(.+),(.+), (.+)\)");
             Match match = regex.Match(html);
 
             if (!match.Success)
-                return new Result<BotTask>("empty task");
+                return null;
 
-            BotTask task = new BotTask
+            return new BotJoinTask
             {
-                TaskId = match.Groups[1].Value,
-                GroupId = match.Groups[2].Value,
-                GroupUrl = match.Groups[3].Value,
-                Api = match.Groups[4].Value
+                taskId = match.Groups[1].Value,
+                groupId = match.Groups[2].Value,
+                groupUrl = match.Groups[3].Value,
+                api = match.Groups[4].Value
             };
+        }
 
-            return new Result<BotTask>(task);
+
+        public BotLikeTask ParseLikeTask(string html)
+        {
+            Regex regex = new Regex(@"do_like\((.+),(.+),(.+),'(.+)','(.+)','.+', (.+)\)");
+            Match match = regex.Match(html);
+
+            if (!match.Success)
+                return null;
+
+            return new BotLikeTask
+            {
+                taskId = match.Groups[1].Value,
+                postId = match.Groups[2].Value,
+                ownerId = match.Groups[3].Value,
+                type = match.Groups[4].Value,
+                postUrl = match.Groups[5].Value,
+                api = match.Groups[6].Value
+            };
         }
     }
 }

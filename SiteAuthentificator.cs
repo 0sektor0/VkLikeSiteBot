@@ -53,7 +53,7 @@ namespace VkLikeSiteBot
             };
 
             //1st request to get session cookie
-            HttpRequestMessage request = new HttpRequestMessage();
+            /*HttpRequestMessage request = new HttpRequestMessage();
             request.RequestUri = new Uri("https://v-like.ru/");
 
             _httpClient.SendAsync(request).GetAwaiter().GetResult();
@@ -116,7 +116,7 @@ namespace VkLikeSiteBot
 
             response = _httpClient.SendAsync(request).Result;
 
-            return null;
+            return null;*/
         }
 
 

@@ -14,6 +14,8 @@ namespace VkLikeSiteBot
 
         public string token;
 
+        public string host;
+
         public HttpClient httpClient;
     }
 }

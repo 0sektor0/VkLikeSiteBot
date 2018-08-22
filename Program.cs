@@ -1,7 +1,10 @@
-﻿using System;
-using VkLikeSiteBot.Models;
+﻿using VkLikeSiteBot.Models;
+using System.Collections.Generic;
+using VkLikeSiteBot.Interfaces;
 using System.Threading;
+using System.Net.Http;
 using sharpvk;
+using System;
 
 
 
@@ -21,14 +24,14 @@ namespace VkLikeSiteBot
                 login = "+79258465151",
                 pass = "YOG_965211-sot",
                 uid = "456924527",
-                token = "81e50f21fdde8430bcc94c6fc417e9d9"
+                token = "81e50f21fdde8430bcc94c6fc417e9d9",
+                host = "https://v-like.ru"
             };
 
-            SiteParser parser = new SiteParser();
-            client = new SiteClient(siteUser, parser);
-            
+            client = new SiteClient(siteUser);
+
             Token t = new Token(siteUser.login, siteUser.pass, 274556);
-            vkClient = new ApiClient(t,3);
+            vkClient = new ApiClient(t, 3);
             Console.WriteLine($"{siteUser.login} {siteUser.pass} authorized");
 
             DoWork();
@@ -37,34 +40,47 @@ namespace VkLikeSiteBot
 
         static void DoWork()
         {
-            while(true)
+            while (true)
             {
                 try
                 {
-                    Result<BotTask> taskResult = client.ReciveTask();
-                    if (!taskResult.Success)
-                        throw new Exception(taskResult.Errors[0]);
+                    List<IBotTask> tasks = client.ReciveTask();
 
-                    BotTask task = taskResult.Data;
-                    Console.WriteLine($"\nnew task\n{task.ToString()}\n");
+                    if (tasks.Count == 0)
+                        throw new Exception("there is no task");
 
-                    int status = vkClient.JoinGroup(Convert.ToInt32(task.GroupId));
-                    Console.WriteLine($"groups joined: {status}");
-                    Thread.Sleep(10 * 1000);             
+                    foreach (IBotTask task in tasks)
+                    {
+                        Console.WriteLine($"\ntask\n{task.ToString()}");
 
-                    Result<bool> checkResult = client.CheckTask(task);
-                    if (!checkResult.Success)
-                        throw new Exception(checkResult.Errors[0]);
+                        if (task.Type == BotTasks.JoinTask)
+                            HandleBotJoinTask(task as BotJoinTask);
+                        else
+                        {
+                            Console.WriteLine("status: undefined task type");
+                            continue;
+                        }
 
-                    Console.WriteLine(task.GroupUrl);
+                        Thread.Sleep(10 * 1000);
+
+                        Result<bool> checkResult = client.CheckTask(task);
+                        if (!checkResult.Success)
+                            Console.WriteLine("status: Task failed");
+                    }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    Console.WriteLine("30 min sleep");
-                    Thread.Sleep(30 * 60 * 1000);
+                    Console.WriteLine("\n10 min sleep");
+                    Thread.Sleep(10 * 60 * 1000);
                 }
             }
+        }
+
+
+        static private void HandleBotJoinTask(BotJoinTask task)
+        {
+            vkClient.JoinGroup(Convert.ToInt32(task.groupId));
         }
     }
 }

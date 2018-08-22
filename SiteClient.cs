@@ -3,32 +3,29 @@ using System.Net;
 using System.Text;
 using System.Net.Http;
 using VkLikeSiteBot.Interfaces;
+using System.Collections.Generic;
 using VkLikeSiteBot.Models;
 
 
 
 namespace VkLikeSiteBot
 {
-    public class SiteClient : ISiteClient
+    public class SiteClient
     {
-        private CookieContainer _cookieContainer;
+        private SiteParser _parser = new SiteParser();
         private HttpClient _httpClient;
-        private ISiteParser _parser;
         private SiteUserContext _user;
 
-        private string _url = "https://v-like.ru";
 
-
-        public SiteClient(SiteUserContext user, ISiteParser parser)
+        public SiteClient(SiteUserContext user)
         {
-            _parser = parser;
             _user = user;
             
             HttpClientHandler handler = new HttpClientHandler
             {
                 AllowAutoRedirect = true,
                 UseCookies = true,
-                CookieContainer = _cookieContainer
+                CookieContainer = new CookieContainer()
             };
 
             _httpClient = new HttpClient(handler);
@@ -36,40 +33,53 @@ namespace VkLikeSiteBot
         }
 
 
-        public SiteClient(SiteUserContext user) : this(user, new SiteParser())
+        public List<IBotTask> ReciveTask()
         {
+            List<IBotTask> tasks = new List<IBotTask>();
 
+            tasks.Add(ReciveLikeTask());
+            //tasks.Add(ReciveJoinTask());
+
+            return tasks;
         }
 
 
-        public Result<BotTask> ReciveTask()
+        private BotJoinTask ReciveJoinTask()
         {
             HttpRequestMessage request = new HttpRequestMessage();
-            request.RequestUri = new Uri($"{_url}/auth.php?uid={_user.uid}&token={_user.token}");
-            request.Headers.Add("Referer", $"{_url}/");
+            request.RequestUri = new Uri($"{_user.host}/auth.php?uid={_user.uid}&token={_user.token}");
+            request.Headers.Add("Referer", $"{_user.host}/");
             request.Headers.Add("Accept", "*/*");
             request.Method = HttpMethod.Get;
 
             HttpResponseMessage response = _httpClient.SendAsync(request).Result;
 
-            if(response.StatusCode != HttpStatusCode.OK)
-                return new Result<BotTask>($"server return {response.StatusCode}");
-
             string html = response.Content.ReadAsStringAsync().Result;
-            return _parser.Parse(response.Content.ReadAsStringAsync().Result);
+            return _parser.ParseJoinTask(html);
         }
 
 
-        public Result<bool> CheckTask(BotTask task)
+        private BotLikeTask ReciveLikeTask()
         {
             HttpRequestMessage request = new HttpRequestMessage();
-            request.RequestUri = new Uri($"{_url}/do_company.php");
+            request.RequestUri = new Uri($"{_user.host}/likes.php");
+            request.Headers.Add("Referer", $"{_user.host}/");
+            request.Headers.Add("Accept", "*/*");
             request.Method = HttpMethod.Post;
 
-            string content = $"uid={_user.uid}&token={_user.token}&gid={task.GroupId}&id={task.TaskId}&api={task.Api}";
+            string content = $"uid={_user.uid}&token={_user.token}";
             request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
-            request.Headers.Add("X-Requested-With", "XMLHttpRequest");
 
+            HttpResponseMessage response = _httpClient.SendAsync(request).Result;
+
+            string html = response.Content.ReadAsStringAsync().Result;
+            return _parser.ParseLikeTask(html);
+        }
+
+
+        public Result<bool> CheckTask(IBotTask task)
+        {
+            HttpRequestMessage request = task.GetVerificationRequest(_user);
             HttpResponseMessage response = _httpClient.SendAsync(request).Result;
 
             if(response.StatusCode != HttpStatusCode.OK)
