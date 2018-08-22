@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Net;
-using System.Net.Http;
 using VkLikeSiteBot.Models;
 using System.Threading;
 using sharpvk;
@@ -31,32 +29,9 @@ namespace VkLikeSiteBot
             
             Token t = new Token(siteUser.login, siteUser.pass, 274556);
             vkClient = new ApiClient(t,3);
-            Console.WriteLine("{siteUser.login} {siteUser.pass} authorized");
+            Console.WriteLine($"{siteUser.login} {siteUser.pass} authorized");
 
             DoWork();
-
-            //SiteAuthentificator authentificator = new SiteAuthentificator(login, pass);
-            //SiteUserContext userContext = authentificator.Authentificate();
-
-            /*CookieContainer _cookieContainer;
-            HttpClient _httpClient;
-
-            _cookieContainer = new CookieContainer();
-
-            HttpClientHandler handler = new HttpClientHandler
-            {
-                AllowAutoRedirect = true,
-                UseCookies = true,
-                CookieContainer = _cookieContainer
-            };
-
-            _httpClient = new HttpClient(handler);
-            _httpClient.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
-
-            HttpRequestMessage request = new HttpRequestMessage();
-            request.RequestUri = new Uri($"https://v-like.ru/auth.php?uid={uid}&token={token}");
-
-            _httpClient.SendAsync(request).GetAwaiter().GetResult();*/
         }
 
 
@@ -71,9 +46,10 @@ namespace VkLikeSiteBot
                         throw new Exception(taskResult.Errors[0]);
 
                     BotTask task = taskResult.Data;
-                    Console.WriteLine($"\nnew task\n{task.ToString()}");
+                    Console.WriteLine($"\nnew task\n{task.ToString()}\n");
 
-                    vkClient.JoinGroup(Convert.ToInt32(task.GroupId));    
+                    int status = vkClient.JoinGroup(Convert.ToInt32(task.GroupId));
+                    Console.WriteLine($"groups joined: {status}");
                     Thread.Sleep(10 * 1000);             
 
                     Result<bool> checkResult = client.CheckTask(task);
@@ -85,7 +61,8 @@ namespace VkLikeSiteBot
                 catch(Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    Thread.Sleep(10 * 60 * 1000);
+                    Console.WriteLine("30 min sleep");
+                    Thread.Sleep(30 * 60 * 1000);
                 }
             }
         }

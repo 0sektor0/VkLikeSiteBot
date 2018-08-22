@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Text;
 using System.Net.Http;
 using VkLikeSiteBot.Interfaces;
 using VkLikeSiteBot.Models;
@@ -66,7 +67,8 @@ namespace VkLikeSiteBot
             request.Method = HttpMethod.Post;
 
             string content = $"uid={_user.uid}&token={_user.token}&gid={task.GroupId}&id={task.TaskId}&api={task.Api}";
-            request.Content = new StringContent(content);
+            request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
+            request.Headers.Add("X-Requested-With", "XMLHttpRequest");
 
             HttpResponseMessage response = _httpClient.SendAsync(request).Result;
 
@@ -75,7 +77,7 @@ namespace VkLikeSiteBot
             else if(response.Content.Headers.ContentLength != 0)
                 return new Result<bool>(1, $"{response.Content.ReadAsStringAsync().Result}");
 
-            return new Result<bool>();
+            return new Result<bool>(true);
         }
     }
 }
