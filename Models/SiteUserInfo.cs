@@ -6,14 +6,14 @@ namespace VkLikeSiteBot
 {
     public class SiteUserContext
     {
-        public string login { get; }
+        public string login;
 
-        public string pass { get;  }
+        public string pass;
 
-        public string uid { get; }
+        public string uid;
 
-        public string token { get; }
+        public string token;
 
-        public HttpClient httpClient { get; }
+        public HttpClient httpClient;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 using System.Net.Http;
 using VkLikeSiteBot.Interfaces;
 using System.Collections.Generic;
@@ -32,11 +33,25 @@ namespace VkLikeSiteBot
             };
 
             _httpClient = new HttpClient(handler);
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36");
+            _httpClient.DefaultRequestHeaders.Add("Accept", "text/html, application/xhtml+xml, image/jxr, */*");
+            _httpClient.DefaultRequestHeaders.Add("Accept-Language", "ru-RU");
+            _httpClient.DefaultRequestHeaders.Add("Accept-Charset", "utf-8");
+            _httpClient.DefaultRequestHeaders.Connection.Add("Keep-Alive");
         }
 
 
         public SiteUserContext Authentificate()
         {
+            return new SiteUserContext
+            {
+                login = _login,
+                pass = _pass,
+                token = "",
+                uid = "",
+                httpClient = _httpClient
+            };
+
             //1st request to get session cookie
             HttpRequestMessage request = new HttpRequestMessage();
             request.RequestUri = new Uri("https://v-like.ru/");
@@ -80,19 +95,24 @@ namespace VkLikeSiteBot
                 "&client=");
             
             HttpResponseMessage response = _httpClient.SendAsync(request).Result;
-            string authentificateFormHtml = response.Content.ReadAsStringAsync().Result;
+            string html = response.Content.ReadAsStringAsync().Result;
 
             //4th request to authorize on vk
             request = new HttpRequestMessage();
             request.RequestUri = new Uri("https://login.vk.com/?act=login&soft=1");
-            request.Content = CreateVkAuthentificatePostData(authentificateFormHtml);
+            request.Content = CreateVkAuthentificatePostData(html);
             request.Method = HttpMethod.Post;
             
             response = _httpClient.SendAsync(request).Result;
+            html = response.Content.ReadAsStringAsync().Result;
 
             //5th request to get site token
             request = new HttpRequestMessage();
             request.RequestUri = new Uri("https://v-like.ru/");
+            request.Headers.Add("Referer", "https://v-like.ru/");
+            request.Headers.Add("Cache-Control", "no-cache");
+            request.Content = new StringContent($"token={ParseSiteToken(html)}");
+            request.Method = HttpMethod.Post;
 
             response = _httpClient.SendAsync(request).Result;
 
@@ -100,7 +120,7 @@ namespace VkLikeSiteBot
         }
 
 
-        private List<KeyValuePair<string, string>> ParseDataFromAuthForm(string html)
+        private List<KeyValuePair<string, string>> ParseVkAuthFormData(string html)
         {
             Regex regex = new Regex(@"name=""(.+)"" value=""(.+)""");
             MatchCollection matches = regex.Matches(html);
@@ -119,11 +139,23 @@ namespace VkLikeSiteBot
 
         private FormUrlEncodedContent CreateVkAuthentificatePostData(string authentificateFormHtml)
         {
-            List<KeyValuePair<string, string>> postData = ParseDataFromAuthForm(authentificateFormHtml);
+            List<KeyValuePair<string, string>> postData = ParseVkAuthFormData(authentificateFormHtml);
             postData.Add(new KeyValuePair<string, string>("email", _login));
             postData.Add(new KeyValuePair<string, string>("pass", _pass));
 
             return new FormUrlEncodedContent(postData);
+        }
+
+
+        private string ParseSiteToken(string html)
+        {
+            Regex regex = new Regex(@"token = '(.+)'");
+            MatchCollection matches = regex.Matches(html);
+
+            if (matches.Count != 1)
+                throw new Exception("authentification failed");
+
+            return matches[0].Groups[1].ToString();
         }
     }
 }

@@ -10,24 +10,32 @@ namespace VkLikeSiteBot
 {
     public class SiteClient : ISiteClient
     {
+        private CookieContainer _cookieContainer;
         private HttpClient _httpClient;
         private ISiteParser _parser;
-        private string _token;
-        private string _uid; 
+        private SiteUserContext _user;
 
         private string _url = "https://v-like.ru";
 
 
-        public SiteClient(string token, string uid, ISiteParser parser)
+        public SiteClient(SiteUserContext user, ISiteParser parser)
         {
-            _httpClient = new HttpClient();
             _parser = parser;
-            _token = token;
-            _uid = uid;
+            _user = user;
+            
+            HttpClientHandler handler = new HttpClientHandler
+            {
+                AllowAutoRedirect = true,
+                UseCookies = true,
+                CookieContainer = _cookieContainer
+            };
+
+            _httpClient = new HttpClient(handler);
+            _httpClient.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
         }
 
 
-        public SiteClient(string token, string uid) : this(token, uid, new SiteParser())
+        public SiteClient(SiteUserContext user) : this(user, new SiteParser())
         {
 
         }
@@ -36,7 +44,7 @@ namespace VkLikeSiteBot
         public Result<BotTask> ReciveTask()
         {
             HttpRequestMessage request = new HttpRequestMessage();
-            request.RequestUri = new Uri($"{_url}/auth.php?uid={_uid}&token={_token}&_={DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}");
+            request.RequestUri = new Uri($"{_url}/auth.php?uid={_user.uid}&token={_user.token}");
             request.Headers.Add("Referer", $"{_url}/");
             request.Headers.Add("Accept", "*/*");
             request.Method = HttpMethod.Get;
@@ -57,7 +65,7 @@ namespace VkLikeSiteBot
             request.RequestUri = new Uri($"{_url}/do_company.php");
             request.Method = HttpMethod.Post;
 
-            string content = $"uid={_uid}&token={_token}&gid={task.GroupId}&id={task.TaskId}&api={task.Api}";
+            string content = $"uid={_user.uid}&token={_user.token}&gid={task.GroupId}&id={task.TaskId}&api={task.Api}";
             request.Content = new StringContent(content);
 
             HttpResponseMessage response = _httpClient.SendAsync(request).Result;

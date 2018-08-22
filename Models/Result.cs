@@ -39,8 +39,9 @@ namespace VkLikeSiteBot.Models
         }
 
 
-        public Result()
+        public Result(T data)
         {
+            _data = data;
             _state = true;
         }
 
