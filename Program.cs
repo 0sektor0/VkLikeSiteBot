@@ -52,8 +52,6 @@ namespace VkLikeSiteBot
 
                     if (tasks.Count == 0)
                     {
-                        Console.WriteLine($"\n{DateTime.UtcNow}");
-                        Console.WriteLine("there is no task");
                         Thread.Sleep(settings.RecieveDelay * 60 * 1000);
                         continue;
                     }
@@ -81,9 +79,15 @@ namespace VkLikeSiteBot
                             Console.WriteLine("status: Task completed");
                     }
                 }
+                catch (VkApiClientException ex)
+                {
+                    Console.WriteLine($"Vk client exception: {ex.Message}");
+                    Thread.Sleep(settings.RecieveDelay * 60 * 1000);
+                }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                    Thread.Sleep(settings.RecieveDelay * 60 * 1000);
                 }
             }
         }

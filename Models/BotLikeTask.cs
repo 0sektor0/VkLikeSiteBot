@@ -10,7 +10,7 @@ namespace VkLikeSiteBot.Models
     public class BotLikeTask : IBotTask
     {
         private string successState = "1";
-        public int taskId;
+        public string taskId;
         public int postId;
         public int ownerId;
         public string postUrl;

@@ -38,7 +38,7 @@ namespace VkLikeSiteBot
 
             return new BotLikeTask
             {
-                taskId = Convert.ToInt32(match.Groups[1].Value),
+                taskId = match.Groups[1].Value,
                 postId = Convert.ToInt32(match.Groups[2].Value),
                 ownerId = Convert.ToInt32(match.Groups[3].Value),
                 type = match.Groups[4].Value,
