@@ -9,6 +9,8 @@ namespace VkLikeSiteBot.Interfaces
     {
         HttpRequestMessage GetVerificationRequest(SiteUserContext user);
 
+        string SuccessState { get; }
+
         int Type { get; }
     }
 }

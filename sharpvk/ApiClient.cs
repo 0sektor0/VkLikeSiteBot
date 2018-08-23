@@ -60,6 +60,17 @@ namespace sharpvk
         }
 
 
+        public bool Repost(WallPost post)
+        {
+            Result<RepostResponse> resp = sender.Send<RepostResponse>(new ApiRequest($"wall.repost?object=wall{post.OwnerId}_{post.Id}"));
+
+            if(resp.IsError())
+                throw new Exception(resp.Error.ErrorMsg);
+
+            return resp.Response.Success;
+        }
+
+
         public int CopyMessage(Message msg, int uid)
         {
             Result<int> resp = sender.Send<int>(ConvertMessageToReq(msg, uid));

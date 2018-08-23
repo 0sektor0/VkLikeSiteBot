@@ -9,23 +9,28 @@ namespace VkLikeSiteBot.Models
 {
     public class BotLikeTask : IBotTask
     {
-        public string taskId;
-
-        public string postId;
-
-        public string ownerId;
-
-        public string type;
-
+        private string successState = "1";
+        public int taskId;
+        public int postId;
+        public int ownerId;
         public string postUrl;
-
+        public string repost;
+        public string type;
         public string api;
 
         public int Type
         {
             get
             {
-                return BotTasks.JoinTask;
+                return BotTasks.LikeTask;
+            }
+        }
+
+        public string SuccessState
+        {
+            get
+            {
+                return successState;
             }
         }
 
@@ -33,11 +38,11 @@ namespace VkLikeSiteBot.Models
         public HttpRequestMessage GetVerificationRequest(SiteUserContext user)
         {
             HttpRequestMessage request = new HttpRequestMessage();
-            request.RequestUri = new Uri($"{user.host}/do_company.php");
+            request.RequestUri = new Uri($"{user.host}/do_like.php");
             request.Method = HttpMethod.Post;
 
-            //string content = $"uid={user.uid}&token={user.token}&gid={GroupId}&id={TaskId}&api={Api}";
-            //request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
+            string content = $"uid={user.uid}&token={user.token}&id={taskId}&iid={postId}&oid={ownerId}&type={type}&repost={repost}&api={api}";
+            request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
             request.Headers.Add("X-Requested-With", "XMLHttpRequest");
 
             return request;

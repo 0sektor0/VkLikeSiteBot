@@ -1,3 +1,4 @@
+using System;
 using VkLikeSiteBot.Models;
 using VkLikeSiteBot.Interfaces;
 using System.Text.RegularExpressions;
@@ -29,7 +30,7 @@ namespace VkLikeSiteBot
 
         public BotLikeTask ParseLikeTask(string html)
         {
-            Regex regex = new Regex(@"do_like\((.+),(.+),(.+),'(.+)','(.+)','.+', (.+)\)");
+            Regex regex = new Regex(@"do_like\((.+),(.+),(.+),'(.+)','(.+)','(.+)', (.+)\)");
             Match match = regex.Match(html);
 
             if (!match.Success)
@@ -37,12 +38,13 @@ namespace VkLikeSiteBot
 
             return new BotLikeTask
             {
-                taskId = match.Groups[1].Value,
-                postId = match.Groups[2].Value,
-                ownerId = match.Groups[3].Value,
+                taskId = Convert.ToInt32(match.Groups[1].Value),
+                postId = Convert.ToInt32(match.Groups[2].Value),
+                ownerId = Convert.ToInt32(match.Groups[3].Value),
                 type = match.Groups[4].Value,
                 postUrl = match.Groups[5].Value,
-                api = match.Groups[6].Value
+                repost = match.Groups[6].Value,
+                api = match.Groups[7].Value
             };
         }
     }

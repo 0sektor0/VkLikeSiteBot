@@ -9,6 +9,8 @@ namespace VkLikeSiteBot.Models
 {
     public class BotJoinTask : IBotTask
     {
+        private const string successState = "";
+
         public string taskId;
 
         public string groupId;
@@ -22,6 +24,14 @@ namespace VkLikeSiteBot.Models
             get
             {
                 return BotTasks.JoinTask;
+            }
+        }
+
+        public string SuccessState
+        {
+            get
+            {
+                return successState;
             }
         }
 
