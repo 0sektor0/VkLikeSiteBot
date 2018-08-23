@@ -53,6 +53,17 @@ namespace sharpvk
         }
 
 
+        public int AddLikeToPhoto(AttachmentPhoto photo)
+        {
+            Result<LikesResponse> resp = sender.Send<LikesResponse>(new ApiRequest($"likes.add?type=photo&owner_id={photo.OwnerId}&item_id={photo.Id}"));
+
+            if(resp.IsError())
+                throw new Exception(resp.Error.ErrorMsg);
+
+            return resp.Response.Likes;
+        }
+
+
         public void AddLikeToPost(List<WallPost> posts)
         {
             foreach(WallPost post in posts)

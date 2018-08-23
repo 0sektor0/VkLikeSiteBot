@@ -97,22 +97,38 @@ namespace VkLikeSiteBot
 
         static private void HandleBotLikeTask(BotLikeTask task)
         {
-            WallPost post = new WallPost
+            if(task.type == "post")
             {
-                OwnerId = task.ownerId,
-                Id = task.postId,
-                Likes = new Likes
+                WallPost post = new WallPost
                 {
-                    CanLike = true
-                }
-            };
+                    OwnerId = task.ownerId,
+                    Id = task.postId,
+                    Likes = new Likes
+                    {
+                        CanLike = true
+                    }
+                };
 
-            int status = vkClient.AddLikeToPost(post);
-            if(status == 0)
-                throw new Exception($"cannot like post {task.postUrl}");
+                if (vkClient.AddLikeToPost(post) == 0)
+                    throw new Exception($"cannot like post {task.postUrl}");
 
-            if(!vkClient.Repost(post))
-                throw new Exception($"cannot repost post {task.postUrl}");
+                if (task.repost == "1")
+                    if (!vkClient.Repost(post))
+                        throw new Exception($"cannot repost post {task.postUrl}");
+            }
+            else if(task.type == "photo")
+            {
+                AttachmentPhoto photo = new AttachmentPhoto
+                {
+                    OwnerId = task.ownerId,
+                    Id = task.postId
+                };
+                
+                if (vkClient.AddLikeToPhoto(photo) == 0)
+                    throw new Exception($"cannot like photo {task.postUrl}");
+            }
+            else
+                throw new Exception("undefined task type");
         }
     }
 }

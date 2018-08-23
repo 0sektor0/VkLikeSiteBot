@@ -56,6 +56,7 @@ namespace VkLikeSiteBot.Models
                    $"\niid: {postId}" +
                    $"\noid: {ownerId}" +
                    $"\nurl: {postUrl}" +
+                   $"\nrepost: {repost}" +
                    $"\nApi: {api}";
         }
     }
