@@ -2,39 +2,23 @@ using System;
 using System.IO;
 using Newtonsoft.Json;
 using System.Globalization;
+using VkLikeSiteBot.Models;
 using System.Collections.Generic;
 using Newtonsoft.Json.Converters;
 
 
 
-namespace VkLikeSiteBot
+namespace VkLikeSiteBot.Infrastructure
 {
 
     public class BotSettings
     {
         public static string path = Directory.GetCurrentDirectory()+"/data/botconfig.json";
+
         private static readonly BotSettings instanse = LoadConfigs(path);
 
-        [JsonProperty("login")]
-        public string Login { get; set; }
-
-        [JsonProperty("pass")]
-        public string Pass { get; set; }
-
-        [JsonProperty("uid")]
-        public string Uid { get; set; }
-
-        [JsonProperty("token")]
-        public string Token { get; set; }
-
-        [JsonProperty("host")]
-        public string Host { get; set; }
-
-        [JsonProperty("check_delay")]
-        public int CheckDelay { get; set; } = 10;
-
-        [JsonProperty("recieve_delay")]
-        public int RecieveDelay { get; set; } = 10;
+        [JsonProperty("users")]
+        public SiteUserContext[] Users { get; set; }
 
 
         public static void SetPath(string path) => BotSettings.path = path;

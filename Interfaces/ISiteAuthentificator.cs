@@ -1,4 +1,8 @@
-﻿namespace VkLikeSiteBot.Interfaces
+﻿using VkLikeSiteBot.Models;
+
+
+
+namespace VkLikeSiteBot.Interfaces
 {
     public interface ISiteAuthentificator
     {

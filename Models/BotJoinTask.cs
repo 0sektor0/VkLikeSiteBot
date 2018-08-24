@@ -39,10 +39,10 @@ namespace VkLikeSiteBot.Models
         public HttpRequestMessage GetVerificationRequest(SiteUserContext user)
         {
             HttpRequestMessage request = new HttpRequestMessage();
-            request.RequestUri = new Uri($"{user.host}/do_company.php");
+            request.RequestUri = new Uri($"{user.Host}/do_company.php");
             request.Method = HttpMethod.Post;
 
-            string content = $"uid={user.uid}&token={user.token}&gid={groupId}&id={taskId}&api={api}";
+            string content = $"uid={user.Uid}&token={user.Token}&gid={groupId}&id={taskId}&api={api}";
             request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
             request.Headers.Add("X-Requested-With", "XMLHttpRequest");
 

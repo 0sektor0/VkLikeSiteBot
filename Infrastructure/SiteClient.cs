@@ -8,7 +8,7 @@ using VkLikeSiteBot.Models;
 
 
 
-namespace VkLikeSiteBot
+namespace VkLikeSiteBot.Infrastructure
 {
     public class SiteClient
     {
@@ -54,8 +54,8 @@ namespace VkLikeSiteBot
         private BotJoinTask ReciveJoinTask()
         {
             HttpRequestMessage request = new HttpRequestMessage();
-            request.RequestUri = new Uri($"{_user.host}/auth.php?uid={_user.uid}&token={_user.token}");
-            request.Headers.Add("Referer", $"{_user.host}/");
+            request.RequestUri = new Uri($"{_user.Host}/auth.php?uid={_user.Uid}&token={_user.Token}");
+            request.Headers.Add("Referer", $"{_user.Host}/");
             request.Headers.Add("Accept", "*/*");
             request.Method = HttpMethod.Get;
 
@@ -69,12 +69,12 @@ namespace VkLikeSiteBot
         private BotLikeTask ReciveLikeTask()
         {
             HttpRequestMessage request = new HttpRequestMessage();
-            request.RequestUri = new Uri($"{_user.host}/likes.php");
-            request.Headers.Add("Referer", $"{_user.host}/");
+            request.RequestUri = new Uri($"{_user.Host}/likes.php");
+            request.Headers.Add("Referer", $"{_user.Host}/");
             request.Headers.Add("Accept", "*/*");
             request.Method = HttpMethod.Post;
 
-            string content = $"uid={_user.uid}&token={_user.token}";
+            string content = $"uid={_user.Uid}&token={_user.Token}";
             request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
 
             HttpResponseMessage response = _httpClient.SendAsync(request).Result;

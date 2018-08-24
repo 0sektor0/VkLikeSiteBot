@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 
 
-namespace VkLikeSiteBot
+namespace VkLikeSiteBot.Infrastructure
 {
     public class SiteParser
     {

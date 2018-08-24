@@ -1,11 +1,8 @@
-﻿using VkLikeSiteBot.Models;
+﻿using System;
+using VkLikeSiteBot.Models;
+using System.Threading.Tasks;
 using System.Collections.Generic;
-using VkLikeSiteBot.Interfaces;
-using System.Threading;
-using System.Net.Http;
-using sharpvk.Types;
-using sharpvk;
-using System;
+using VkLikeSiteBot.Infrastructure;
 
 
 
@@ -13,126 +10,34 @@ namespace VkLikeSiteBot
 {
     class Program
     {
-        static SiteUserContext siteUser;
-        static SiteClient client;
-        static ApiClient vkClient;
-        static BotSettings settings;
-
-
         static void Main(string[] args)
         {
-            settings = BotSettings.GetSettings();
+            BotSettings settings = BotSettings.GetSettings();
+            List<Bot> bots = new List<Bot>();
 
-            siteUser = new SiteUserContext
+            for(int i = 0; i < settings.Users.Length; i++)
             {
-                login = settings.Login,
-                pass = settings.Pass,
-                uid = settings.Uid,
-                token = settings.Token,
-                host = settings.Host
-            };
+                SiteUserContext user = settings.Users[i];
 
-            client = new SiteClient(siteUser);
-
-            Token t = new Token(siteUser.login, siteUser.pass, 274556);
-            vkClient = new ApiClient(t, 3);
-            Console.WriteLine($"{siteUser.login} {siteUser.pass} authorized");
-
-            DoWork();
-        }
-
-
-        static void DoWork()
-        {
-            while (true)
-            {
                 try
                 {
-                    List<IBotTask> tasks = client.ReciveTask();
+                    Bot bot = new Bot(user);
+                    bots.Add(bot);
 
-                    if (tasks.Count == 0)
-                    {
-                        Thread.Sleep(settings.RecieveDelay * 60 * 1000);
-                        continue;
-                    }
-
-                    foreach (IBotTask task in tasks)
-                    {
-                        Console.WriteLine($"\n{DateTime.UtcNow}\ntask\n{task.ToString()}");
-
-                        if (task.Type == BotTasks.JoinTask)
-                            HandleBotJoinTask(task as BotJoinTask);
-                        else if (task.Type == BotTasks.LikeTask)
-                            HandleBotLikeTask(task as BotLikeTask);
-                        else
-                        {
-                            Console.WriteLine("status: undefined task type");
-                            continue;
-                        }
-
-                        Thread.Sleep(settings.CheckDelay * 1000);
-
-                        bool checkResult = client.CheckTask(task);
-                        if (!checkResult)
-                            Console.WriteLine("status: Task failed");
-                        else
-                            Console.WriteLine("status: Task completed");
-                    }
+                    Console.WriteLine($"{user.Login} {user.Pass} authorized");
                 }
-                catch (VkApiClientException ex)
+                catch(Exception ex)
                 {
-                    Console.WriteLine($"Vk client exception: {ex.Message}");
-                    Thread.Sleep(settings.RecieveDelay * 60 * 1000);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    Thread.Sleep(settings.RecieveDelay * 60 * 1000);
+                    Console.WriteLine($"{user.Login} {user.Pass} not authorized: {ex.Message}");
                 }
             }
-        }
 
+            Task[] botsWorkCycles = new Task[bots.Count];
+            for(int i = 0; i < bots.Count; i++)
+                botsWorkCycles[i] = bots[i].StartAsync();
 
-        static private void HandleBotJoinTask(BotJoinTask task)
-        {
-            vkClient.JoinGroup(Convert.ToInt32(task.groupId));
-        }
-
-
-        static private void HandleBotLikeTask(BotLikeTask task)
-        {
-            if(task.type == "post")
-            {
-                WallPost post = new WallPost
-                {
-                    OwnerId = task.ownerId,
-                    Id = task.postId,
-                    Likes = new Likes
-                    {
-                        CanLike = true
-                    }
-                };
-
-                if (vkClient.AddLikeToPost(post) == 0)
-                    throw new Exception($"cannot like post {task.postUrl}");
-
-                if (task.repost == "1")
-                    if (!vkClient.Repost(post))
-                        throw new Exception($"cannot repost post {task.postUrl}");
-            }
-            else if(task.type == "photo")
-            {
-                AttachmentPhoto photo = new AttachmentPhoto
-                {
-                    OwnerId = task.ownerId,
-                    Id = task.postId
-                };
-                
-                if (vkClient.AddLikeToPhoto(photo) == 0)
-                    throw new Exception($"cannot like photo {task.postUrl}");
-            }
-            else
-                throw new Exception("undefined task type");
+            Task.WaitAll(botsWorkCycles);
+            Console.WriteLine("all bots stoped working");
         }
     }
 }
