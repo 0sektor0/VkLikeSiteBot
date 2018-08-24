@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using VkLikeSiteBot.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
