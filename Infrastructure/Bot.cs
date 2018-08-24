@@ -41,7 +41,7 @@ namespace VkLikeSiteBot.Infrastructure
                     continue;
                 }
 
-                Console.WriteLine($"bot {_siteUser.Login} tasks count: {tasks.Count}");
+                Console.WriteLine($"\nbot {_siteUser.Login} tasks count: {tasks.Count}");
                 foreach (IBotTask task in tasks)
                 {
                     string report = $"\nbot: {_siteUser.Login}\n{DateTime.UtcNow}\ntask\n{task.ToString()}";
