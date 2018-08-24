@@ -24,7 +24,7 @@ namespace VkLikeSiteBot
                     Bot bot = new Bot(user);
                     bots.Add(bot);
 
-                    Console.WriteLine($"{user.Login} {user.Pass} authorized");
+                    Console.WriteLine($"{user.Login} {user.Pass} authorized\n");
                 }
                 catch(Exception ex)
                 {
