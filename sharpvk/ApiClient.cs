@@ -22,7 +22,7 @@ namespace sharpvk
             Result<ResponseArray<Message>> msgs = sender.Send<ResponseArray<Message>>(new ApiRequest($"messages.search?count={count}&q={template}"));
 
             if(msgs.IsError())
-                throw new Exception(msgs.Error.ErrorMsg);
+                throw new VkApiClientException(msgs.Error.ErrorMsg);
 
             return msgs.Response.Items;
         }
@@ -33,7 +33,7 @@ namespace sharpvk
             Result<ResponseArray<WallPost>> posts = sender.Send<ResponseArray<WallPost>>(new ApiRequest($"wall.get?extended=0&owner_id={owner_id}&count={count}&offset={offset}"));
 
             if(posts.IsError())
-                throw new Exception(posts.Error.ErrorMsg);
+                throw new VkApiClientException(posts.Error.ErrorMsg);
 
             return posts.Response.Items;
         }
@@ -47,7 +47,18 @@ namespace sharpvk
             Result<LikesResponse> resp = sender.Send<LikesResponse>(new ApiRequest($"likes.add?type=post&owner_id={post.OwnerId}&item_id={post.Id}"));
 
             if(resp.IsError())
-                throw new Exception(resp.Error.ErrorMsg);
+                throw new VkApiClientException(resp.Error.ErrorMsg);
+
+            return resp.Response.Likes;
+        }
+
+
+        public int AddLikeToPhoto(AttachmentPhoto photo)
+        {
+            Result<LikesResponse> resp = sender.Send<LikesResponse>(new ApiRequest($"likes.add?type=photo&owner_id={photo.OwnerId}&item_id={photo.Id}"));
+
+            if(resp.IsError())
+                throw new VkApiClientException(resp.Error.ErrorMsg);
 
             return resp.Response.Likes;
         }
@@ -60,12 +71,23 @@ namespace sharpvk
         }
 
 
+        public bool Repost(WallPost post)
+        {
+            Result<RepostResponse> resp = sender.Send<RepostResponse>(new ApiRequest($"wall.repost?object=wall{post.OwnerId}_{post.Id}"));
+
+            if(resp.IsError())
+                throw new VkApiClientException(resp.Error.ErrorMsg);
+
+            return resp.Response.Success;
+        }
+
+
         public int CopyMessage(Message msg, int uid)
         {
             Result<int> resp = sender.Send<int>(ConvertMessageToReq(msg, uid));
 
             if(resp.IsError())
-                throw new Exception(resp.Error.ErrorMsg);
+                throw new VkApiClientException(resp.Error.ErrorMsg);
 
             return resp.Response;
         }
@@ -76,7 +98,7 @@ namespace sharpvk
             Result<ResponseArray<Profile>> profiles = sender.Send<ResponseArray<Profile>>(new ApiRequest($"groups.getMembers?group_id={group_id}&count={count}&offset={offset}&fields=contacts,online,online,online_mobile,sex"));
 
             if(profiles.IsError())
-                throw new Exception(profiles.Error.ErrorMsg);
+                throw new VkApiClientException(profiles.Error.ErrorMsg);
 
             return profiles.Response.Items;
         }
@@ -88,7 +110,7 @@ namespace sharpvk
             prms["user_id"] = uid.ToString();
             
             if(msg.Text == "" && msg.Attachments.Count == 0)
-                throw new Exception("text ot attachments must be declared in message");
+                throw new VkApiClientException("text ot attachments must be declared in message");
 
             if(msg.Text != "")
                 prms["message"] = msg.Text;
@@ -110,7 +132,7 @@ namespace sharpvk
             Result<int> resp = sender.Send<int>(new ApiRequest($"groups.join?group_id={group_id}"));
 
             if(resp.IsError())
-                throw new Exception(resp.Error.ErrorMsg);
+                throw new VkApiClientException(resp.Error.ErrorMsg);
 
             return resp.Response;
         }

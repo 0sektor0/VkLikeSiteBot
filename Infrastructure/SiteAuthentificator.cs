@@ -2,13 +2,14 @@
 using System.Net;
 using System.Text;
 using System.Net.Http;
+using VkLikeSiteBot.Models;
 using VkLikeSiteBot.Interfaces;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 
 
-namespace VkLikeSiteBot
+namespace VkLikeSiteBot.Infrastructure
 {
     class SiteAuthentificator : ISiteAuthentificator
     {
@@ -43,15 +44,6 @@ namespace VkLikeSiteBot
 
         public SiteUserContext Authentificate()
         {
-            return new SiteUserContext
-            {
-                login = _login,
-                pass = _pass,
-                token = "",
-                uid = "",
-                httpClient = _httpClient
-            };
-
             //1st request to get session cookie
             HttpRequestMessage request = new HttpRequestMessage();
             request.RequestUri = new Uri("https://v-like.ru/");
@@ -109,8 +101,9 @@ namespace VkLikeSiteBot
             //5th request to get site token
             request = new HttpRequestMessage();
             request.RequestUri = new Uri("https://v-like.ru/");
-            request.Headers.Add("Referer", "https://v-like.ru/");
             request.Headers.Add("Cache-Control", "no-cache");
+            request.Headers.Add("Referer", "https://v-like.ru/");
+            request.Headers.Add("X-Requested-With", "XMLHttpRequest");
             request.Content = new StringContent($"token={ParseSiteToken(html)}");
             request.Method = HttpMethod.Post;
 

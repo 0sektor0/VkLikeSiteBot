@@ -6,8 +6,8 @@ namespace VkLikeSiteBot.Interfaces
 {
     public interface ISiteClient
     {
-        Result<BotTask> ReciveTask();
+        Result<BotJoinTask> ReciveTask();
 
-        Result<bool> CheckTask(BotTask botTask);
+        Result<bool> CheckTas(IBotTask botTask);
     }
 }

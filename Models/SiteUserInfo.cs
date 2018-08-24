@@ -1,19 +1,31 @@
 ﻿using System.Net.Http;
+using Newtonsoft.Json;
 
 
 
-namespace VkLikeSiteBot
+namespace VkLikeSiteBot.Models
 {
     public class SiteUserContext
     {
-        public string login;
+        [JsonProperty("login")]
+        public string Login { get; set; }
 
-        public string pass;
+        [JsonProperty("pass")]
+        public string Pass { get; set; }
 
-        public string uid;
+        [JsonProperty("uid")]
+        public string Uid { get; set; }
 
-        public string token;
+        [JsonProperty("token")]
+        public string Token { get; set; }
 
-        public HttpClient httpClient;
+        [JsonProperty("host")]
+        public string Host { get; set; }
+
+        [JsonProperty("check_delay")]
+        public int CheckDelay { get; set; } = 10;
+
+        [JsonProperty("recieve_delay")]
+        public int RecieveDelay { get; set; } = 10;
     }
 }
