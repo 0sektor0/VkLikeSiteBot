@@ -48,22 +48,29 @@ namespace VkLikeSiteBot.Infrastructure
 
                     try
                     {
-                        if (task.Type == BotTasks.JoinTask)
-                            HandleBotJoinTask(task as BotJoinTask);
-                        else if (task.Type == BotTasks.LikeTask)
-                            HandleBotLikeTask(task as BotLikeTask);
-                        else
+                        switch(task.Type)
                         {
-                            report += "\nstatus: undefined task type";
-                            Console.WriteLine(report);
-                            continue;
+                            case BotTaskType.JoinTask :
+                                HandleBotJoinTask(task as BotJoinTask);
+                                break;
+
+                            case BotTaskType.LikeTask :
+                                HandleBotLikeTask(task as BotLikeTask);
+                                break;
+
+                            default :
+                                throw new Exception("undefined task type");
                         }
 
                         Thread.Sleep(_siteUser.CheckDelay * 1000);
 
-                        bool checkResult = _siteClient.CheckTask(task);
-                        if (!checkResult)
+                        var checkResult = _siteClient.CheckTask(task);
+                        if (!checkResult.Success)
+                        {
                             report += "\nstatus: Task failed";
+                            foreach(string error in checkResult.Errors)
+                                report += $"\nerror: {error}";
+                        }
                         else
                             report += "\nstatus: Task completed";
 
