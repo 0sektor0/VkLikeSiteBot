@@ -11,6 +11,6 @@ namespace VkLikeSiteBot.Interfaces
 
         string SuccessState { get; }
 
-        int Type { get; }
+        BotTaskType Type { get; }
     }
 }

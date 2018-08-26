@@ -19,11 +19,11 @@ namespace VkLikeSiteBot.Models
 
         public string api;
 
-        public int Type
+        public BotTaskType Type
         {
             get
             {
-                return BotTasks.JoinTask;
+                return BotTaskType.JoinTask;
             }
         }
 
