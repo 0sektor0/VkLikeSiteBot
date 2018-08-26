@@ -61,9 +61,13 @@ namespace VkLikeSiteBot.Infrastructure
 
                         Thread.Sleep(_siteUser.CheckDelay * 1000);
 
-                        bool checkResult = _siteClient.CheckTask(task);
-                        if (!checkResult)
+                        var checkResult = _siteClient.CheckTask(task);
+                        if (!checkResult.Success)
+                        {
                             report += "\nstatus: Task failed";
+                            foreach(string error in checkResult.Errors)
+                                report += $"\nerror: {error}";
+                        }
                         else
                             report += "\nstatus: Task completed";
 

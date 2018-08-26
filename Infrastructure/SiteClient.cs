@@ -84,16 +84,16 @@ namespace VkLikeSiteBot.Infrastructure
         }
 
 
-        public bool CheckTask(IBotTask task)
+        public Result<bool> CheckTask(IBotTask task)
         {
             HttpRequestMessage request = task.GetVerificationRequest(_user);
             HttpResponseMessage response = _httpClient.SendAsync(request).Result;
 
             string result = response.Content.ReadAsStringAsync().Result;
             if(result != task.SuccessState)
-                return false;
+                return new Result<bool>(result);
 
-            return true;
+            return new Result<bool>(true);
         }
     }
 }
