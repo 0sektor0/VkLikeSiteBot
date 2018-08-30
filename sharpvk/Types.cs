@@ -108,13 +108,13 @@ namespace sharpvk.Types
 
         public bool IsError()
         {
-            if(IsEmpty())
+            if (IsEmpty())
                 throw new Exception("Responses is empty");
-            else if(Error != null)
+            else if (Error != null)
                 return true;
 
             return false;
-        } 
+        }
 
         public bool IsEmpty()
         {
@@ -123,9 +123,10 @@ namespace sharpvk.Types
     }
 
 
+    //TODO delete Count
     public class ResponseArray<T>
     {
-        [JsonProperty("count", Required = Required.Always)]
+        [JsonProperty("count")]
         public int Count { get; set; }
 
         [JsonProperty("items", Required = Required.Always)]
@@ -182,6 +183,10 @@ namespace sharpvk.Types
     }
 
 
+
+    #region Types
+
+
     public class Error
     {
         [JsonProperty("error_code", Required = Required.Always)]
@@ -221,7 +226,7 @@ namespace sharpvk.Types
     }
 
 
-public class Profile
+    public class Profile
     {
         [JsonProperty("id", Required = Required.Always)]
         public int Id { get; set; }
@@ -298,7 +303,44 @@ public class Profile
     }
 
 
-//TODO дообъявить все типы и вынести аттачи в отдельное пространство имен    
+    public class Group
+    {
+        [JsonProperty("id", Required = Required.Always)]
+        public int Id { get; set; }
+
+        [JsonProperty("name", Required = Required.Always)]
+        public string Name { get; set; }
+
+        [JsonProperty("is_closed", Required = Required.Always)]
+        public int IsClosed { get; set; }
+
+        [JsonProperty("screen_name")]
+        public string ScreenName { get; set; }
+
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("is_admin")]
+        public long IsAdmin { get; set; }
+
+        [JsonProperty("is_member")]
+        public long IsMember { get; set; }
+
+        [JsonProperty("description")]
+        public string Description { get; set; }
+
+        [JsonProperty("photo_50")]
+        public string Photo50 { get; set; }
+
+        [JsonProperty("photo_100")]
+        public string Photo100 { get; set; }
+
+        [JsonProperty("photo_200")]
+        public string Photo200 { get; set; }
+    }
+
+
+    //TODO дообъявить все типы и вынести аттачи в отдельное пространство имен    
     public class Attachment
     {
         [JsonProperty("type", Required = Required.Always)]
@@ -322,16 +364,16 @@ public class Profile
 
         public override string ToString()
         {
-            switch(Type)
+            switch (Type)
             {
                 case TypeEnum.Audio:
-                    return  Audio.ToString();
+                    return Audio.ToString();
                 case TypeEnum.Doc:
-                    return  Doc.ToString();
+                    return Doc.ToString();
                 case TypeEnum.Photo:
-                    return  Photo.ToString();
+                    return Photo.ToString();
                 case TypeEnum.Video:
-                    return  Video.ToString();
+                    return Video.ToString();
                 default:
                     throw new Exception($"undefined type {Type}");
             }
@@ -382,8 +424,8 @@ public class Profile
         {
             string str = $"audio{OwnerId}_{Id}";
 
-            if(AccessKey!="")
-            return str + $"_{AccessKey}";
+            if (AccessKey != "")
+                return str + $"_{AccessKey}";
 
             return str;
         }
@@ -424,8 +466,8 @@ public class Profile
         {
             string str = $"doc{OwnerId}_{Id}";
 
-            if(AccessKey!="")
-            return str + $"_{AccessKey}";
+            if (AccessKey != "")
+                return str + $"_{AccessKey}";
 
             return str;
         }
@@ -454,17 +496,17 @@ public class Profile
 
         [JsonProperty("access_key")]
         public string AccessKey { get; set; }
-        
+
 
         public override string ToString()
         {
             string str = $"photo{OwnerId}_{Id}";
 
-            if(AccessKey!="")
-            return str + $"_{AccessKey}";
+            if (AccessKey != "")
+                return str + $"_{AccessKey}";
 
             return str;
-        }        
+        }
     }
 
 
@@ -502,8 +544,8 @@ public class Profile
         {
             string str = $"video{OwnerId}_{Id}";
 
-            if(AccessKey!="")
-            return str + $"_{AccessKey}";
+            if (AccessKey != "")
+                return str + $"_{AccessKey}";
 
             return str;
         }
@@ -550,7 +592,7 @@ public class Profile
         [JsonProperty("update_time", Required = Required.Always)]
         public int UpdateTime { get; set; }
     }
-//
+    //
 
     public class ChatInfo
     {
@@ -748,4 +790,7 @@ public class Profile
         [JsonProperty("count", Required = Required.Always)]
         public int Count { get; set; }
     }
+
+
+    #endregion 
 }

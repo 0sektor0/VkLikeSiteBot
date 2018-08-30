@@ -9,6 +9,8 @@ namespace VkLikeSiteBot.Interfaces
     {
         HttpRequestMessage GetVerificationRequest(SiteUserContext user);
 
+        HttpRequestMessage GetTaskRefusalRequest(SiteUserContext user);
+
         string SuccessState { get; }
 
         BotTaskType Type { get; }

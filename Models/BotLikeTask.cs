@@ -22,7 +22,17 @@ namespace VkLikeSiteBot.Models
         {
             get
             {
-                return BotTaskType.LikeTask;
+                switch(type)
+                {
+                    case "post":
+                        return BotTaskType.LikePost;
+
+                    case "photo":
+                        return BotTaskType.LikePhoto;
+
+                    default:
+                        throw new Exception("unknown task type");
+                }
             }
         }
 
@@ -46,6 +56,12 @@ namespace VkLikeSiteBot.Models
             request.Headers.Add("X-Requested-With", "XMLHttpRequest");
 
             return request;
+        }
+
+
+        public HttpRequestMessage GetTaskRefusalRequest(SiteUserContext user)
+        {
+            return null;
         }
 
 

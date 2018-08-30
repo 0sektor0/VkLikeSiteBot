@@ -2,7 +2,8 @@ namespace VkLikeSiteBot.Models
 {
     public enum BotTaskType
     {
-        JoinTask = 0,
-        LikeTask = 1
+        JoinGroup = 0,
+        LikePost = 1,
+        LikePhoto = 2
     }
 }

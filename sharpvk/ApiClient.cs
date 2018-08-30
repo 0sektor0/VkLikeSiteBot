@@ -8,18 +8,18 @@ namespace sharpvk
 {
     public class ApiClient
     {
-        private RequestSender sender;
+        private RequestSender _sender;
 
 
         public ApiClient(Token t, int maxReqCount)
         {
-            sender = new RequestSender(t, maxReqCount);
+            _sender = new RequestSender(t, maxReqCount);
         }
 
 
         public List<Message> SearchMessages(int count, string template)
         {
-            Result<ResponseArray<Message>> msgs = sender.Send<ResponseArray<Message>>(new ApiRequest($"messages.search?count={count}&q={template}"));
+            Result<ResponseArray<Message>> msgs = _sender.Send<ResponseArray<Message>>(new ApiRequest($"messages.search?count={count}&q={template}"));
 
             if(msgs.IsError())
                 throw new VkApiClientException(msgs.Error.ErrorMsg);
@@ -30,7 +30,7 @@ namespace sharpvk
 
         public List<WallPost> WallGet(int owner_id, int count=1, int offset=0)
         {
-            Result<ResponseArray<WallPost>> posts = sender.Send<ResponseArray<WallPost>>(new ApiRequest($"wall.get?extended=0&owner_id={owner_id}&count={count}&offset={offset}"));
+            Result<ResponseArray<WallPost>> posts = _sender.Send<ResponseArray<WallPost>>(new ApiRequest($"wall.get?extended=0&owner_id={owner_id}&count={count}&offset={offset}"));
 
             if(posts.IsError())
                 throw new VkApiClientException(posts.Error.ErrorMsg);
@@ -44,7 +44,7 @@ namespace sharpvk
             if(!post.Likes.CanLike)
                 return 0;
 
-            Result<LikesResponse> resp = sender.Send<LikesResponse>(new ApiRequest($"likes.add?type=post&owner_id={post.OwnerId}&item_id={post.Id}"));
+            Result<LikesResponse> resp = _sender.Send<LikesResponse>(new ApiRequest($"likes.add?type=post&owner_id={post.OwnerId}&item_id={post.Id}"));
 
             if(resp.IsError())
                 throw new VkApiClientException(resp.Error.ErrorMsg);
@@ -55,7 +55,7 @@ namespace sharpvk
 
         public int AddLikeToPhoto(AttachmentPhoto photo)
         {
-            Result<LikesResponse> resp = sender.Send<LikesResponse>(new ApiRequest($"likes.add?type=photo&owner_id={photo.OwnerId}&item_id={photo.Id}"));
+            Result<LikesResponse> resp = _sender.Send<LikesResponse>(new ApiRequest($"likes.add?type=photo&owner_id={photo.OwnerId}&item_id={photo.Id}"));
 
             if(resp.IsError())
                 throw new VkApiClientException(resp.Error.ErrorMsg);
@@ -73,7 +73,7 @@ namespace sharpvk
 
         public bool Repost(WallPost post)
         {
-            Result<RepostResponse> resp = sender.Send<RepostResponse>(new ApiRequest($"wall.repost?object=wall{post.OwnerId}_{post.Id}"));
+            Result<RepostResponse> resp = _sender.Send<RepostResponse>(new ApiRequest($"wall.repost?object=wall{post.OwnerId}_{post.Id}"));
 
             if(resp.IsError())
                 throw new VkApiClientException(resp.Error.ErrorMsg);
@@ -84,7 +84,7 @@ namespace sharpvk
 
         public int CopyMessage(Message msg, int uid)
         {
-            Result<int> resp = sender.Send<int>(ConvertMessageToReq(msg, uid));
+            Result<int> resp = _sender.Send<int>(ConvertMessageToReq(msg, uid));
 
             if(resp.IsError())
                 throw new VkApiClientException(resp.Error.ErrorMsg);
@@ -95,7 +95,7 @@ namespace sharpvk
 
         public List<Profile> GetGroupMembers(int group_id, int count, int offset)
         {
-            Result<ResponseArray<Profile>> profiles = sender.Send<ResponseArray<Profile>>(new ApiRequest($"groups.getMembers?group_id={group_id}&count={count}&offset={offset}&fields=contacts,online,online,online_mobile,sex"));
+            Result<ResponseArray<Profile>> profiles = _sender.Send<ResponseArray<Profile>>(new ApiRequest($"groups.getMembers?group_id={group_id}&count={count}&offset={offset}&fields=contacts,online,online,online_mobile,sex"));
 
             if(profiles.IsError())
                 throw new VkApiClientException(profiles.Error.ErrorMsg);
@@ -127,9 +127,29 @@ namespace sharpvk
         }
 
 
+        public Group GetGroup(string name)
+        {
+            Result<Group[]> resp = _sender.Send<Group[]>(new ApiRequest($"groups.getById?group_ids={name}"));
+
+            if(resp.IsError())
+                throw new VkApiClientException(resp.Error.ErrorMsg);
+
+            if(resp.Response.Length == 0)
+                return null;
+            else
+                return resp.Response[0];
+        }
+
+
+        public Group GetGroup(int id)
+        {
+            return GetGroup(id.ToString());
+        }
+
+
         public int JoinGroup(int group_id)
         {
-            Result<int> resp = sender.Send<int>(new ApiRequest($"groups.join?group_id={group_id}"));
+            Result<int> resp = _sender.Send<int>(new ApiRequest($"groups.join?group_id={group_id}"));
 
             if(resp.IsError())
                 throw new VkApiClientException(resp.Error.ErrorMsg);

@@ -50,12 +50,16 @@ namespace VkLikeSiteBot.Infrastructure
                     {
                         switch(task.Type)
                         {
-                            case BotTaskType.JoinTask :
-                                HandleBotJoinTask(task as BotJoinTask);
+                            case BotTaskType.JoinGroup :
+                                HandleJoinTask(task as BotJoinTask);
                                 break;
 
-                            case BotTaskType.LikeTask :
-                                HandleBotLikeTask(task as BotLikeTask);
+                            case BotTaskType.LikePhoto :
+                                HandlePhotoLikeTask(task as BotLikeTask);
+                                break;
+
+                            case BotTaskType.LikePost :
+                                HandlePostLikeTask(task as BotLikeTask);
                                 break;
 
                             default :
@@ -85,7 +89,9 @@ namespace VkLikeSiteBot.Infrastructure
                     }
                     catch (Exception ex)
                     {
-                        report += $"\n{ex.Message}";
+                        _siteClient.RefuseTask(task);
+
+                        report += $"\nexception: {ex.Message}";
                         Console.WriteLine(report);
 
                         Thread.Sleep(_siteUser.RecieveDelay * 60 * 1000);
@@ -102,16 +108,19 @@ namespace VkLikeSiteBot.Infrastructure
 
 
 
-        private void HandleBotJoinTask(BotJoinTask task)
+        private void HandleJoinTask(BotJoinTask task)
         {
-            _vkClient.JoinGroup(Convert.ToInt32(task.groupId));
+            Group group = _vkClient.GetGroup(task.groupId);
+
+            if(group.IsClosed == 0)
+                _vkClient.JoinGroup(Convert.ToInt32(task.groupId));
+            else
+                throw new Exception($"{task.groupUrl} is closed group");
         }
 
 
-        private void HandleBotLikeTask(BotLikeTask task)
+        private void HandlePostLikeTask(BotLikeTask task)
         {
-            if (task.type == "post")
-            {
                 WallPost post = new WallPost
                 {
                     OwnerId = task.ownerId,
@@ -128,9 +137,11 @@ namespace VkLikeSiteBot.Infrastructure
                 if (task.repost == "1")
                     if (!_vkClient.Repost(post))
                         throw new Exception($"cannot repost post {task.postUrl}");
-            }
-            else if (task.type == "photo")
-            {
+        }
+
+
+        private void HandlePhotoLikeTask(BotLikeTask task)
+        {
                 AttachmentPhoto photo = new AttachmentPhoto
                 {
                     OwnerId = task.ownerId,
@@ -139,9 +150,6 @@ namespace VkLikeSiteBot.Infrastructure
 
                 if (_vkClient.AddLikeToPhoto(photo) == 0)
                     throw new Exception($"cannot like photo {task.postUrl}");
-            }
-            else
-                throw new Exception("undefined task type");
         }
     }
 }
