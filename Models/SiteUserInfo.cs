@@ -23,9 +23,9 @@ namespace VkLikeSiteBot.Models
         public string Host { get; set; }
 
         [JsonProperty("check_delay")]
-        public int CheckDelay { get; set; } = 10;
+        public double CheckDelay { get; set; } = 10;
 
         [JsonProperty("recieve_delay")]
-        public int RecieveDelay { get; set; } = 10;
+        public double RecieveDelay { get; set; } = 10;
     }
 }

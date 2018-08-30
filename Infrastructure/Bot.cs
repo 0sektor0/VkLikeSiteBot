@@ -37,7 +37,7 @@ namespace VkLikeSiteBot.Infrastructure
 
                 if (tasks.Count == 0)
                 {
-                    Thread.Sleep(_siteUser.RecieveDelay * 60 * 1000);
+                    Thread.Sleep(Convert.ToInt32(_siteUser.RecieveDelay * 60 * 1000));
                     continue;
                 }
 
@@ -48,45 +48,47 @@ namespace VkLikeSiteBot.Infrastructure
 
                     try
                     {
-                        switch(task.Type)
+                        switch (task.Type)
                         {
-                            case BotTaskType.JoinGroup :
+                            case BotTaskType.JoinGroup:
                                 HandleJoinTask(task as BotJoinTask);
                                 break;
 
-                            case BotTaskType.LikePhoto :
+                            case BotTaskType.LikePhoto:
                                 HandlePhotoLikeTask(task as BotLikeTask);
                                 break;
 
-                            case BotTaskType.LikePost :
+                            case BotTaskType.LikePost:
                                 HandlePostLikeTask(task as BotLikeTask);
                                 break;
 
-                            default :
+                            default:
                                 throw new Exception("undefined task type");
                         }
 
-                        Thread.Sleep(_siteUser.CheckDelay * 1000);
+                        Thread.Sleep(Convert.ToInt32(_siteUser.CheckDelay * 1000));
 
                         var checkResult = _siteClient.CheckTask(task);
                         if (!checkResult.Success)
                         {
                             report += "\nstatus: Task failed";
-                            foreach(string error in checkResult.Errors)
+                            foreach (string error in checkResult.Errors)
                                 report += $"\nerror: {error}";
                         }
                         else
                             report += "\nstatus: Task completed";
 
-                        Console.WriteLine(report);                            
+                        Console.WriteLine(report);
                     }
+
                     catch (VkApiClientException ex)
                     {
                         report += $"\nVk client exception: {ex.Message}";
                         Console.WriteLine(report);
 
-                        Thread.Sleep(_siteUser.RecieveDelay * 60 * 1000);
+                        Thread.Sleep(Convert.ToInt32(_siteUser.RecieveDelay * 60 * 1000));
                     }
+
                     catch (Exception ex)
                     {
                         _siteClient.RefuseTask(task);
@@ -94,7 +96,7 @@ namespace VkLikeSiteBot.Infrastructure
                         report += $"\nexception: {ex.Message}";
                         Console.WriteLine(report);
 
-                        Thread.Sleep(_siteUser.RecieveDelay * 60 * 1000);
+                        Thread.Sleep(Convert.ToInt32(_siteUser.RecieveDelay * 60 * 1000));
                     }
                 }
             }
@@ -112,44 +114,46 @@ namespace VkLikeSiteBot.Infrastructure
         {
             Group group = _vkClient.GetGroup(task.groupId);
 
-            if(group.IsClosed == 0)
-                _vkClient.JoinGroup(Convert.ToInt32(task.groupId));
-            else
+            if (group.IsClosed != 0)
                 throw new Exception($"{task.groupUrl} is closed group");
+            else if (group.IsMember)
+                throw new Exception($"{task.groupUrl} already member");
+            else
+                _vkClient.JoinGroup(Convert.ToInt32(task.groupId));
         }
 
 
         private void HandlePostLikeTask(BotLikeTask task)
         {
-                WallPost post = new WallPost
+            WallPost post = new WallPost
+            {
+                OwnerId = task.ownerId,
+                Id = task.postId,
+                Likes = new Likes
                 {
-                    OwnerId = task.ownerId,
-                    Id = task.postId,
-                    Likes = new Likes
-                    {
-                        CanLike = true
-                    }
-                };
+                    CanLike = true
+                }
+            };
 
-                if (_vkClient.AddLikeToPost(post) == 0)
-                    throw new Exception($"cannot like post {task.postUrl}");
+            if (_vkClient.AddLikeToPost(post) == 0)
+                throw new Exception($"cannot like post {task.postUrl}");
 
-                if (task.repost == "1")
-                    if (!_vkClient.Repost(post))
-                        throw new Exception($"cannot repost post {task.postUrl}");
+            if (task.repost == "1")
+                if (!_vkClient.Repost(post))
+                    throw new Exception($"cannot repost post {task.postUrl}");
         }
 
 
         private void HandlePhotoLikeTask(BotLikeTask task)
         {
-                AttachmentPhoto photo = new AttachmentPhoto
-                {
-                    OwnerId = task.ownerId,
-                    Id = task.postId
-                };
+            AttachmentPhoto photo = new AttachmentPhoto
+            {
+                OwnerId = task.ownerId,
+                Id = task.postId
+            };
 
-                if (_vkClient.AddLikeToPhoto(photo) == 0)
-                    throw new Exception($"cannot like photo {task.postUrl}");
+            if (_vkClient.AddLikeToPhoto(photo) == 0)
+                throw new Exception($"cannot like photo {task.postUrl}");
         }
     }
 }

@@ -321,10 +321,10 @@ namespace sharpvk.Types
         public string Type { get; set; }
 
         [JsonProperty("is_admin")]
-        public long IsAdmin { get; set; }
+        public bool IsAdmin { get; set; }
 
-        [JsonProperty("is_member")]
-        public long IsMember { get; set; }
+        [JsonProperty("is_member", Required = Required.Always)]
+        public bool IsMember { get; set; }
 
         [JsonProperty("description")]
         public string Description { get; set; }
