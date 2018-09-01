@@ -4,8 +4,8 @@ using VkLikeSiteBot.Interfaces;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Net.Http;
-using sharpvk.Types;
-using sharpvk;
+using SharpVK.Types;
+using SharpVK;
 using System;
 
 
@@ -52,6 +52,10 @@ namespace VkLikeSiteBot.Infrastructure
                         {
                             case BotTaskType.JoinGroup:
                                 HandleJoinTask(task as BotJoinTask);
+                                break;
+
+                            case BotTaskType.LikeVideo:
+                                HandleVideoLikeTask(task as BotLikeTask);
                                 break;
 
                             case BotTaskType.LikePhoto:
@@ -135,7 +139,10 @@ namespace VkLikeSiteBot.Infrastructure
                 }
             };
 
-            if (_vkClient.AddLikeToPost(post) == 0)
+            /*if(post.Reposts.UserReposted)
+                throw new Exception($"post {task.postUrl} already reposted");*/
+
+            if (_vkClient.AddLikeToItem(post, "post") == 0)
                 throw new Exception($"cannot like post {task.postUrl}");
 
             if (task.repost == "1")
@@ -152,7 +159,20 @@ namespace VkLikeSiteBot.Infrastructure
                 Id = task.postId
             };
 
-            if (_vkClient.AddLikeToPhoto(photo) == 0)
+            if (_vkClient.AddLikeToItem(photo, "photo") == 0)
+                throw new Exception($"cannot like photo {task.postUrl}");
+        }
+
+
+        private void HandleVideoLikeTask(BotLikeTask task)
+        {
+            Video video = new Video
+            {
+                OwnerId = task.ownerId,
+                Id = task.postId
+            };
+
+            if (_vkClient.AddLikeToItem(video, "video") == 0)
                 throw new Exception($"cannot like photo {task.postUrl}");
         }
     }

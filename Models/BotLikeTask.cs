@@ -30,6 +30,9 @@ namespace VkLikeSiteBot.Models
                     case "photo":
                         return BotTaskType.LikePhoto;
 
+                    case "video":
+                        return BotTaskType.LikeVideo;
+
                     default:
                         throw new Exception("unknown task type");
                 }

@@ -1,10 +1,10 @@
 using System;
-using sharpvk.Types;
+using SharpVK.Types;
 using System.Collections.Generic;
 
 
 
-namespace sharpvk
+namespace SharpVK
 {
     public class ApiClient
     {
@@ -39,35 +39,14 @@ namespace sharpvk
         }
 
 
-        public int AddLikeToPost(WallPost post)
+        public int AddLikeToItem(ILikeableItem item, string type)
         {
-            if(!post.Likes.CanLike)
-                return 0;
-
-            Result<LikesResponse> resp = _sender.Send<LikesResponse>(new ApiRequest($"likes.add?type=post&owner_id={post.OwnerId}&item_id={post.Id}"));
+            Result<LikesResponse> resp = _sender.Send<LikesResponse>(new ApiRequest($"likes.add?type={type}&owner_id={item.OwnerId}&item_id={item.Id}"));
 
             if(resp.IsError())
                 throw new VkApiClientException(resp.Error.ErrorMsg);
 
             return resp.Response.Likes;
-        }
-
-
-        public int AddLikeToPhoto(AttachmentPhoto photo)
-        {
-            Result<LikesResponse> resp = _sender.Send<LikesResponse>(new ApiRequest($"likes.add?type=photo&owner_id={photo.OwnerId}&item_id={photo.Id}"));
-
-            if(resp.IsError())
-                throw new VkApiClientException(resp.Error.ErrorMsg);
-
-            return resp.Response.Likes;
-        }
-
-
-        public void AddLikeToPost(List<WallPost> posts)
-        {
-            foreach(WallPost post in posts)
-                AddLikeToPost(post);
         }
 
 

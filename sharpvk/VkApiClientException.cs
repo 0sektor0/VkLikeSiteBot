@@ -2,7 +2,7 @@ using System;
 
 
 
-namespace sharpvk
+namespace SharpVK
 {
     public class VkApiClientException : Exception
     {
