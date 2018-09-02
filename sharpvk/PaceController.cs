@@ -3,7 +3,7 @@ using System.Threading;
 
 
 
-namespace sharpvk
+namespace SharpVK
 {
     public class PaceController
     {

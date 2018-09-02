@@ -95,5 +95,16 @@ namespace VkLikeSiteBot.Infrastructure
 
             return new Result<bool>(true);
         }
+
+
+        public void RefuseTask(IBotTask task)
+        {
+            HttpRequestMessage request = task.GetTaskRefusalRequest(_user);
+
+            if(request == null)
+                return;
+
+            _httpClient.SendAsync(request);
+        }
     }
 }

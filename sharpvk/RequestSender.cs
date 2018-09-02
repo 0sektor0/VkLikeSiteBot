@@ -3,12 +3,12 @@ using System.IO;
 using System.Net;
 using System.Web;
 using System.Text;
-using sharpvk.Types;
+using SharpVK.Types;
 using Newtonsoft.Json.Linq;
 
 
 
-namespace sharpvk
+namespace SharpVK
 {
     public class RequestSender
     {

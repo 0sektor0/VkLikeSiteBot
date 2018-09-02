@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 
 
-namespace sharpvk
+namespace SharpVK
 {
     public class Token
     {
