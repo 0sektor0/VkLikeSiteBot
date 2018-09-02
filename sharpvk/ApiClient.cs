@@ -28,6 +28,20 @@ namespace SharpVK
         }
 
 
+        public WallPost GetPostById(string id)
+        {
+            Result<WallPost[]> posts = _sender.Send<WallPost[]>(new ApiRequest($"wall.getById?extended=0&posts={id}"));
+
+            if(posts.IsError())
+                throw new VkApiClientException(posts.Error.ErrorMsg);
+
+            if(posts.Response.Length == 0)
+                throw new VkApiClientException($"post {id} dosent exist");
+
+            return posts.Response[0];
+        }
+
+
         public List<WallPost> WallGet(int owner_id, int count=1, int offset=0)
         {
             Result<ResponseArray<WallPost>> posts = _sender.Send<ResponseArray<WallPost>>(new ApiRequest($"wall.get?extended=0&owner_id={owner_id}&count={count}&offset={offset}"));

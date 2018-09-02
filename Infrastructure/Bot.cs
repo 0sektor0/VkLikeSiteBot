@@ -129,15 +129,7 @@ namespace VkLikeSiteBot.Infrastructure
 
         private void HandlePostLikeTask(BotLikeTask task)
         {
-            WallPost post = new WallPost
-            {
-                OwnerId = task.ownerId,
-                Id = task.postId,
-                Likes = new Likes
-                {
-                    CanLike = true
-                }
-            };
+            WallPost post = _vkClient.GetPostById($"{task.ownerId}_{task.postId}");
 
             if(post.Reposts.UserReposted)
                 throw new Exception($"post {task.postUrl} already reposted");
