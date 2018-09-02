@@ -139,8 +139,8 @@ namespace VkLikeSiteBot.Infrastructure
                 }
             };
 
-            /*if(post.Reposts.UserReposted)
-                throw new Exception($"post {task.postUrl} already reposted");*/
+            if(post.Reposts.UserReposted)
+                throw new Exception($"post {task.postUrl} already reposted");
 
             if (_vkClient.AddLikeToItem(post, "post") == 0)
                 throw new Exception($"cannot like post {task.postUrl}");
