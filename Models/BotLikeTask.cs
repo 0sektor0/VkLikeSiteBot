@@ -64,7 +64,15 @@ namespace VkLikeSiteBot.Models
 
         public HttpRequestMessage GetTaskRefusalRequest(SiteUserContext user)
         {
-            return null;
+            HttpRequestMessage request = new HttpRequestMessage();
+            request.RequestUri = new Uri($"{user.Host}/ajax.php");
+            request.Method = HttpMethod.Post;
+
+            string content = $"uid={user.Uid}&token={user.Token}&hide_like={postId}";
+            request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
+            request.Headers.Add("X-Requested-With", "XMLHttpRequest");
+
+            return request;
         }
 
 
