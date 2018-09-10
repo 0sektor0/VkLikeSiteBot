@@ -76,6 +76,8 @@ namespace VkLikeSiteBot.Infrastructure
                         if (!checkResult.Success)
                         {
                             report += "\nstatus: Task failed";
+                            report += $"\ntask refuse result: {_siteClient.RefuseTask(task)}";
+
                             foreach (string error in checkResult.Errors)
                                 report += $"\nerror: {error}";
                         }
@@ -130,13 +132,14 @@ namespace VkLikeSiteBot.Infrastructure
         {
             WallPost post = _vkClient.GetPostById($"{task.ownerId}_{task.postId}");
     
-            if(post.Reposts.UserReposted)
-                throw new Exception($"post {task.postUrl} already reposted");
+            /*if(post.Reposts.UserReposted)
+                throw new Exception($"post {task.postUrl} already reposted");*/
 
-            if (_vkClient.AddLikeToItem(post, "post") == 0)
-                throw new Exception($"cannot like post {task.postUrl}");
+            if (post.Likes.CanLike) 
+                if(_vkClient.AddLikeToItem(post, "post") == 0)
+                    throw new Exception($"cannot like post {task.postUrl}");
 
-            if (task.repost == "1")
+            if (task.repost == "1" && !post.Reposts.UserReposted)
                 if (!_vkClient.Repost(post))
                     throw new Exception($"cannot repost post {task.postUrl}");
         }
