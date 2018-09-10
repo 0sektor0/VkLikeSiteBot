@@ -10,7 +10,7 @@ using VkLikeSiteBot.Models;
 
 namespace VkLikeSiteBot.Infrastructure
 {
-    public class SiteClient
+    public class SiteClient : ISiteClient
     {
         private SiteParser _parser = new SiteParser();
         private HttpClient _httpClient;
@@ -33,7 +33,7 @@ namespace VkLikeSiteBot.Infrastructure
         }
 
 
-        public List<IBotTask> ReciveTask()
+        public List<IBotTask> ReciveTasks()
         {
             List<IBotTask> tasks = new List<IBotTask>();
 
@@ -44,7 +44,7 @@ namespace VkLikeSiteBot.Infrastructure
         }
 
 
-        public void AddToTaskList(List<IBotTask> tasks, IBotTask task)
+        private void AddToTaskList(List<IBotTask> tasks, IBotTask task)
         {
             if(task != null)
                 tasks.Add(task);
@@ -97,14 +97,15 @@ namespace VkLikeSiteBot.Infrastructure
         }
 
 
-        public void RefuseTask(IBotTask task)
+        public string RefuseTask(IBotTask task)
         {
             HttpRequestMessage request = task.GetTaskRefusalRequest(_user);
 
             if(request == null)
-                return;
+                return "request is empty";
 
-            _httpClient.SendAsync(request);
+            HttpResponseMessage response = _httpClient.SendAsync(request).Result;
+            return response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
         }
     }
 }

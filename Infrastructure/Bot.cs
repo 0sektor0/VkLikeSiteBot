@@ -33,7 +33,7 @@ namespace VkLikeSiteBot.Infrastructure
         {
             while (true)
             {
-                List<IBotTask> tasks = _siteClient.ReciveTask();
+                List<IBotTask> tasks = _siteClient.ReciveTasks();
 
                 if (tasks.Count == 0)
                 {
@@ -88,6 +88,7 @@ namespace VkLikeSiteBot.Infrastructure
                     catch (VkApiClientException ex)
                     {
                         report += $"\nVk client exception: {ex.Message}";
+                        report += $"\ntask refuse result: {_siteClient.RefuseTask(task)}";
                         Console.WriteLine(report);
 
                         Thread.Sleep(Convert.ToInt32(_siteUser.RecieveDelay * 60 * 1000));
@@ -95,9 +96,8 @@ namespace VkLikeSiteBot.Infrastructure
 
                     catch (Exception ex)
                     {
-                        _siteClient.RefuseTask(task);
-
                         report += $"\nexception: {ex.Message}";
+                        report += $"\ntask refuse result: {_siteClient.RefuseTask(task)}";
                         Console.WriteLine(report);
 
                         Thread.Sleep(Convert.ToInt32(_siteUser.RecieveDelay * 60 * 1000));
@@ -111,7 +111,6 @@ namespace VkLikeSiteBot.Infrastructure
         {
             return Task.Run(() => Start());
         }
-
 
 
         private void HandleJoinTask(BotJoinTask task)
@@ -130,7 +129,7 @@ namespace VkLikeSiteBot.Infrastructure
         private void HandlePostLikeTask(BotLikeTask task)
         {
             WallPost post = _vkClient.GetPostById($"{task.ownerId}_{task.postId}");
-
+    
             if(post.Reposts.UserReposted)
                 throw new Exception($"post {task.postUrl} already reposted");
 

@@ -22,7 +22,7 @@ namespace VkLikeSiteBot.Models
         {
             get
             {
-                switch(type)
+                switch (type)
                 {
                     case "post":
                         return BotTaskType.LikePost;
