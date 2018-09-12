@@ -5,6 +5,7 @@ namespace VkLikeSiteBot.Models
         JoinGroup,
         LikePost,
         LikePhoto,
-        LikeVideo
+        LikeVideo,
+        Addfriend
     }
 }

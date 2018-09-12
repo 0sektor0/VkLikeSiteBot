@@ -20,7 +20,7 @@ namespace VkLikeSiteBot.Infrastructure
         public SiteClient(SiteUserContext user)
         {
             _user = user;
-            
+
             HttpClientHandler handler = new HttpClientHandler
             {
                 AllowAutoRedirect = true,
@@ -46,41 +46,81 @@ namespace VkLikeSiteBot.Infrastructure
 
         private void AddToTaskList(List<IBotTask> tasks, IBotTask task)
         {
-            if(task != null)
+            if (task != null)
                 tasks.Add(task);
+        }
+
+
+        private string RecieveTaskPage(string uri, HttpMethod method)
+        {
+            HttpRequestMessage request = new HttpRequestMessage();
+            request.Headers.Add("Referer", $"{_user.Host}/");
+            request.Headers.Add("Accept", "*/*");
+            request.Method = method;
+
+            string content = $"uid={_user.Uid}&token={_user.Token}";
+            if (method == HttpMethod.Post)
+            {
+                request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
+                request.RequestUri = new Uri(uri);
+            }
+            else
+                request.RequestUri = new Uri($"{uri}?{content}");
+
+            HttpResponseMessage response = _httpClient.SendAsync(request).Result;
+            return response.Content.ReadAsStringAsync().Result;
+        }
+
+
+        //TODO add authorization
+        private bool AuthorizeVkApp(string authUrl)
+        {
+            HttpRequestMessage request = new HttpRequestMessage();
+            request.RequestUri = new Uri(authUrl);
+            _httpClient.SendAsync(request).GetAwaiter().GetResult();
+
+            return true;
         }
 
 
         private BotJoinTask ReciveJoinTask()
         {
-            HttpRequestMessage request = new HttpRequestMessage();
-            request.RequestUri = new Uri($"{_user.Host}/auth.php?uid={_user.Uid}&token={_user.Token}");
-            request.Headers.Add("Referer", $"{_user.Host}/");
-            request.Headers.Add("Accept", "*/*");
-            request.Method = HttpMethod.Get;
-
-            HttpResponseMessage response = _httpClient.SendAsync(request).Result;
-
-            string html = response.Content.ReadAsStringAsync().Result;
+            string html = RecieveTaskPage($"{_user.Host}/auth.php", HttpMethod.Get);
             return _parser.ParseJoinTask(html);
         }
 
 
         private BotLikeTask ReciveLikeTask()
         {
-            HttpRequestMessage request = new HttpRequestMessage();
-            request.RequestUri = new Uri($"{_user.Host}/likes.php");
-            request.Headers.Add("Referer", $"{_user.Host}/");
-            request.Headers.Add("Accept", "*/*");
-            request.Method = HttpMethod.Post;
+            string uri = $"{_user.Host}/likes.php";
 
-            string content = $"uid={_user.Uid}&token={_user.Token}";
-            request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
+            string html = RecieveTaskPage(uri, HttpMethod.Post);
+            string authUrl = _parser.ParseAutharization(html);
 
-            HttpResponseMessage response = _httpClient.SendAsync(request).Result;
+            if (authUrl != null)
+            {
+                Console.WriteLine("${DateTime.UtcNow} autharization");
+                AuthorizeVkApp(authUrl);
+                html = RecieveTaskPage(uri, HttpMethod.Post);
+            }
 
-            string html = response.Content.ReadAsStringAsync().Result;
             return _parser.ParseLikeTask(html);
+        }
+
+
+        //TODO capcha needed
+        private BotFriendshipTask RecieveFriendsTaskPage()
+        {
+            string uri = $"{_user.Host}/friends.php";
+
+            string html = RecieveTaskPage(uri, HttpMethod.Post);
+            string authUrl = _parser.ParseAutharization(html);
+
+            if (authUrl != null)
+                AuthorizeVkApp(authUrl);
+
+            html = RecieveTaskPage(uri, HttpMethod.Post);
+            return null;
         }
 
 
@@ -90,7 +130,7 @@ namespace VkLikeSiteBot.Infrastructure
             HttpResponseMessage response = _httpClient.SendAsync(request).Result;
 
             string result = response.Content.ReadAsStringAsync().Result;
-            if(result != task.SuccessState)
+            if (result != task.SuccessState)
                 return new Result<bool>(result);
 
             return new Result<bool>(true);
@@ -101,7 +141,7 @@ namespace VkLikeSiteBot.Infrastructure
         {
             HttpRequestMessage request = task.GetTaskRefusalRequest(_user);
 
-            if(request == null)
+            if (request == null)
                 return "request is empty";
 
             HttpResponseMessage response = _httpClient.SendAsync(request).Result;

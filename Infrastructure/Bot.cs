@@ -7,6 +7,7 @@ using System.Net.Http;
 using SharpVK.Types;
 using SharpVK;
 using System;
+using NLog;
 
 
 
@@ -14,6 +15,7 @@ namespace VkLikeSiteBot.Infrastructure
 {
     public class Bot
     {
+        //private Logger _logger = LogManager.GetCurrentClassLogger();
         private SiteUserContext _siteUser;
         private SiteClient _siteClient;
         private ApiClient _vkClient;
@@ -41,6 +43,7 @@ namespace VkLikeSiteBot.Infrastructure
                     continue;
                 }
 
+                //_logger.Trace($"\nbot {_siteUser.Login} tasks count: {tasks.Count}");
                 Console.WriteLine($"\nbot {_siteUser.Login} tasks count: {tasks.Count}");
                 foreach (IBotTask task in tasks)
                 {
@@ -84,6 +87,7 @@ namespace VkLikeSiteBot.Infrastructure
                         else
                             report += "\nstatus: Task completed";
 
+                        //_logger.Trace(report);
                         Console.WriteLine(report);
                     }
 
@@ -91,6 +95,7 @@ namespace VkLikeSiteBot.Infrastructure
                     {
                         report += $"\nVk client exception: {ex.Message}";
                         report += $"\ntask refuse result: {_siteClient.RefuseTask(task)}";
+                        //_logger.Trace(report);
                         Console.WriteLine(report);
 
                         Thread.Sleep(Convert.ToInt32(_siteUser.RecieveDelay * 60 * 1000));
@@ -100,6 +105,7 @@ namespace VkLikeSiteBot.Infrastructure
                     {
                         report += $"\nexception: {ex.Message}";
                         report += $"\ntask refuse result: {_siteClient.RefuseTask(task)}";
+                        //_logger.Trace(report);
                         Console.WriteLine(report);
 
                         Thread.Sleep(Convert.ToInt32(_siteUser.RecieveDelay * 60 * 1000));

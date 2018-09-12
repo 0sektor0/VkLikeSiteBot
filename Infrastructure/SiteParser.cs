@@ -10,6 +10,18 @@ namespace VkLikeSiteBot.Infrastructure
 {
     public class SiteParser
     {
+        public string ParseAutharization(string html)
+        {
+            Regex regex = new Regex(@"src = '(.+)'");
+            Match match = regex.Match(html);   
+
+            if(!match.Success)
+                return null;
+
+            return match.Groups[1].Value;
+        }
+
+
         public BotJoinTask ParseJoinTask(string html)
         {
             Regex regex = new Regex(@"doCompany\((.+),(.+),(.+), (.+)\)");
@@ -36,7 +48,7 @@ namespace VkLikeSiteBot.Infrastructure
             if (!match.Success)
                 return null;
 
-            return new BotLikeTask
+            BotLikeTask task = new BotLikeTask
             {
                 taskId = match.Groups[1].Value,
                 postId = Convert.ToInt32(match.Groups[2].Value),
@@ -46,6 +58,28 @@ namespace VkLikeSiteBot.Infrastructure
                 repost = match.Groups[6].Value,
                 api = match.Groups[7].Value
             };
+
+            if(task.taskId == "0")
+                return null;
+
+            return task;
+        }
+
+
+        public BotFriendshipTask ParseFriendsghipTask(string html)
+        {
+            Regex regex = new Regex(@"do_friend\((.+),(.+)\)");
+            Match match = regex.Match(html);
+
+            if(!match.Success)
+                return null;
+
+            BotFriendshipTask task = new BotFriendshipTask {
+                taskId = match.Groups[1].Value,
+                friendId = match.Groups[2].Value
+            };
+
+            return task;
         }
     }
 }
