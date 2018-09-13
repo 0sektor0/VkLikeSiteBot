@@ -59,7 +59,7 @@ namespace VkLikeSiteBot.Infrastructure
                 api = match.Groups[7].Value
             };
 
-            if(task.taskId == "0")
+            if(task.taskId == "'0'")
                 return null;
 
             return task;

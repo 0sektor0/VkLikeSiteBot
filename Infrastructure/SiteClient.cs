@@ -13,6 +13,7 @@ namespace VkLikeSiteBot.Infrastructure
     public class SiteClient : ISiteClient
     {
         private SiteParser _parser = new SiteParser();
+        private Authorizer _authorizer;
         private HttpClient _httpClient;
         private SiteUserContext _user;
 
@@ -30,6 +31,8 @@ namespace VkLikeSiteBot.Infrastructure
 
             _httpClient = new HttpClient(handler);
             _httpClient.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
+
+            _authorizer = new Authorizer(user.Login, user.Pass);
         }
 
 
@@ -72,17 +75,6 @@ namespace VkLikeSiteBot.Infrastructure
         }
 
 
-        //TODO add authorization
-        private bool AuthorizeVkApp(string authUrl)
-        {
-            HttpRequestMessage request = new HttpRequestMessage();
-            request.RequestUri = new Uri(authUrl);
-            _httpClient.SendAsync(request).GetAwaiter().GetResult();
-
-            return true;
-        }
-
-
         private BotJoinTask ReciveJoinTask()
         {
             string html = RecieveTaskPage($"{_user.Host}/auth.php", HttpMethod.Get);
@@ -100,7 +92,7 @@ namespace VkLikeSiteBot.Infrastructure
             if (authUrl != null)
             {
                 Console.WriteLine("${DateTime.UtcNow} autharization");
-                AuthorizeVkApp(authUrl);
+                _authorizer.AuthorizeInVkApp(authUrl);
                 html = RecieveTaskPage(uri, HttpMethod.Post);
             }
 
@@ -117,7 +109,11 @@ namespace VkLikeSiteBot.Infrastructure
             string authUrl = _parser.ParseAutharization(html);
 
             if (authUrl != null)
-                AuthorizeVkApp(authUrl);
+            {
+                Console.WriteLine("${DateTime.UtcNow} autharization");
+                _authorizer.AuthorizeInVkApp(authUrl);
+                html = RecieveTaskPage(uri, HttpMethod.Post);
+            }
 
             html = RecieveTaskPage(uri, HttpMethod.Post);
             return null;

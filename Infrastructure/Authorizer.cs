@@ -11,15 +11,15 @@ using System.Text.RegularExpressions;
 
 namespace VkLikeSiteBot.Infrastructure
 {
-    class SiteAuthentificator : ISiteAuthentificator
+    class Authorizer : ISiteAuthorizer
     {
         private CookieContainer _cookieContainer;
-        private HttpClient _httpClient ;
+        private HttpClient _httpClient;
         private string _login;
         private string _pass;
 
 
-        public SiteAuthentificator(string login, string pass)
+        public Authorizer(string login, string pass)
         {
             _login = login;
             _pass = pass;
@@ -42,7 +42,87 @@ namespace VkLikeSiteBot.Infrastructure
         }
 
 
-        public SiteUserContext Authentificate()
+        private List<KeyValuePair<string, string>> ParseVkAuthFormData(string html)
+        {
+            Regex regex = new Regex(@"name=""(.+)"" value=""(.+)""");
+            MatchCollection matches = regex.Matches(html);
+
+            if (matches.Count == 0)
+                throw new Exception("Form dosent contain any valid data");
+
+            List<KeyValuePair<string, string>> data = new List<KeyValuePair<string, string>>();
+
+            foreach (Match match in matches)
+                data.Add(new KeyValuePair<string, string>(match.Groups[1].Value, match.Groups[2].Value));
+
+            return data;
+        }
+
+
+        private FormUrlEncodedContent CreateVkAuthentificatePostData(string authentificateFormHtml)
+        {
+            List<KeyValuePair<string, string>> postData = ParseVkAuthFormData(authentificateFormHtml);
+            postData.Add(new KeyValuePair<string, string>("email", _login));
+            postData.Add(new KeyValuePair<string, string>("pass", _pass));
+
+            return new FormUrlEncodedContent(postData);
+        }
+
+
+        private string ParseApprovementUrl(string html)
+        {
+            Regex regex = new Regex(@"action=\""(.+)"">");
+            Match match = regex.Match(html);
+
+            if (!match.Success)
+                return "";
+
+            return match.Groups[1].Value;
+        }
+
+
+        private string ParseSiteToken(string html)
+        {
+            Regex regex = new Regex(@"token = '(.+)'");
+            MatchCollection matches = regex.Matches(html);
+
+            if (matches.Count != 1)
+                throw new Exception("authentification failed");
+
+            return matches[0].Groups[1].ToString();
+        }
+
+
+        //TODO change auth later
+        public void AuthorizeInVkApp(string url)
+        {
+            HttpRequestMessage request = new HttpRequestMessage();
+            request.RequestUri = new Uri(url);
+            HttpResponseMessage response = _httpClient.SendAsync(request).GetAwaiter().GetResult();
+            string html = response.Content.ReadAsStringAsync().Result;
+
+            //4th request to authorize on vk
+            request = new HttpRequestMessage();
+            request.RequestUri = new Uri("https://login.vk.com/?act=login&soft=1&utf8=1");
+            request.Content = CreateVkAuthentificatePostData(html);
+            request.Method = HttpMethod.Post;
+
+            response = _httpClient.SendAsync(request).Result;
+            html = response.Content.ReadAsStringAsync().Result;
+
+            string approvementUrl = ParseApprovementUrl(html);
+            if (approvementUrl != "")
+            {
+                request = new HttpRequestMessage();
+                request.RequestUri = new Uri(approvementUrl);
+
+                response = _httpClient.SendAsync(request).Result;
+                html = response.Content.ReadAsStringAsync().Result;
+            }
+        }
+
+
+        public SiteUserContext AuthorizeInSite()
         {
             //1st request to get session cookie
             HttpRequestMessage request = new HttpRequestMessage();
@@ -85,7 +165,7 @@ namespace VkLikeSiteBot.Infrastructure
                 "&icons_16=" +
                 "&theme=classic" +
                 "&client=");
-            
+
             HttpResponseMessage response = _httpClient.SendAsync(request).Result;
             string html = response.Content.ReadAsStringAsync().Result;
 
@@ -94,7 +174,7 @@ namespace VkLikeSiteBot.Infrastructure
             request.RequestUri = new Uri("https://login.vk.com/?act=login&soft=1");
             request.Content = CreateVkAuthentificatePostData(html);
             request.Method = HttpMethod.Post;
-            
+
             response = _httpClient.SendAsync(request).Result;
             html = response.Content.ReadAsStringAsync().Result;
 
@@ -110,45 +190,6 @@ namespace VkLikeSiteBot.Infrastructure
             response = _httpClient.SendAsync(request).Result;
 
             return null;
-        }
-
-
-        private List<KeyValuePair<string, string>> ParseVkAuthFormData(string html)
-        {
-            Regex regex = new Regex(@"name=""(.+)"" value=""(.+)""");
-            MatchCollection matches = regex.Matches(html);
-
-            if (matches.Count == 0)
-                throw new Exception("Form dosent contain any valid data");
-
-            List<KeyValuePair<string, string>> data = new List<KeyValuePair<string, string>>();
-
-            foreach (Match match in matches)
-                data.Add(new KeyValuePair<string, string>(match.Groups[1].Value, match.Groups[2].Value));
-
-            return data;
-        }
-
-
-        private FormUrlEncodedContent CreateVkAuthentificatePostData(string authentificateFormHtml)
-        {
-            List<KeyValuePair<string, string>> postData = ParseVkAuthFormData(authentificateFormHtml);
-            postData.Add(new KeyValuePair<string, string>("email", _login));
-            postData.Add(new KeyValuePair<string, string>("pass", _pass));
-
-            return new FormUrlEncodedContent(postData);
-        }
-
-
-        private string ParseSiteToken(string html)
-        {
-            Regex regex = new Regex(@"token = '(.+)'");
-            MatchCollection matches = regex.Matches(html);
-
-            if (matches.Count != 1)
-                throw new Exception("authentification failed");
-
-            return matches[0].Groups[1].ToString();
         }
     }
 }
