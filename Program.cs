@@ -11,7 +11,7 @@ namespace VkLikeSiteBot
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Start()
         {
             //Logger logger = LogManager.GetCurrentClassLogger();
             BotSettings settings = BotSettings.GetSettings();
@@ -43,6 +43,21 @@ namespace VkLikeSiteBot
             Task.WaitAll(botsWorkCycles);
             //logger.Error("all bots stoped working");
             Console.WriteLine("all bots stoped working");
+        }
+
+        //временный костыль, я пока не понял с чем были связанны периобические выледы при повторной авторизации
+        //скорее всего на серверы просто была старая версия, но не стоит исключать, что ошибка где-то тут
+        static void Main(string[] args)
+        {
+            try
+            {
+                Start();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"{DateTime.UtcNow}\n{ex.Message}");
+                Main(null);
+            }
         }
     }
 }
