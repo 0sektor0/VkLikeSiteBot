@@ -91,7 +91,7 @@ namespace VkLikeSiteBot.Infrastructure
 
             if (authUrl != null)
             {
-                Console.WriteLine("${DateTime.UtcNow} autharization");
+                Console.WriteLine($"{DateTime.UtcNow} autharization");
                 _authorizer.AuthorizeInVkApp(authUrl);
                 html = RecieveTaskPage(uri, HttpMethod.Post);
             }
@@ -110,7 +110,7 @@ namespace VkLikeSiteBot.Infrastructure
 
             if (authUrl != null)
             {
-                Console.WriteLine("${DateTime.UtcNow} autharization");
+                Console.WriteLine($"{DateTime.UtcNow} autharization");
                 _authorizer.AuthorizeInVkApp(authUrl);
                 html = RecieveTaskPage(uri, HttpMethod.Post);
             }
