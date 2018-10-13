@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['ibottask',['IBotTask',['../interface_vk_like_site_bot_1_1_interfaces_1_1_i_bot_task.html',1,'VkLikeSiteBot::Interfaces']]],
+  ['ibottask_2ecs',['IBotTask.cs',['../_i_bot_task_8cs.html',1,'']]],
+  ['id',['Id',['../class_sharp_v_k_1_1_types_1_1_attachment_photo.html#ae1a4de472eefbf1f050322d428c708f6',1,'SharpVK.Types.AttachmentPhoto.Id()'],['../class_sharp_v_k_1_1_types_1_1_audio.html#ac493b8d69f786d0e4e675d1a5d70e262',1,'SharpVK.Types.Audio.Id()'],['../class_sharp_v_k_1_1_types_1_1_document.html#a37f82e4f25b7347083c987bddc90c112',1,'SharpVK.Types.Document.Id()'],['../class_sharp_v_k_1_1_types_1_1_empty_attach.html#a9a09cbde0d1f01ce6db1ff86ab27fac3',1,'SharpVK.Types.EmptyAttach.Id()'],['../class_sharp_v_k_1_1_types_1_1_group.html#a11f9df31eb821df480e20671a1f2a146',1,'SharpVK.Types.Group.Id()'],['../interface_sharp_v_k_1_1_types_1_1_i_likeable_item.html#af93aa5b7bc70d73e4c3350f52a84c8bf',1,'SharpVK.Types.ILikeableItem.Id()'],['../class_sharp_v_k_1_1_types_1_1_message.html#abab7305ff97e64226395fd41290b6d83',1,'SharpVK.Types.Message.Id()'],['../class_sharp_v_k_1_1_types_1_1_peer.html#ab6aff57546b9d814651aa36505805d40',1,'SharpVK.Types.Peer.Id()'],['../class_sharp_v_k_1_1_types_1_1_profile.html#abb9fe84b31208751bb60d11d6b6e2d3f',1,'SharpVK.Types.Profile.Id()'],['../class_sharp_v_k_1_1_types_1_1_video.html#a3671f92fdbc6b3768d3a60ee7547ab98',1,'SharpVK.Types.Video.Id()'],['../class_sharp_v_k_1_1_types_1_1_wall_post.html#afcb5b2e3b8138cbf3f12e9d0fe9d4c58',1,'SharpVK.Types.WallPost.Id()']]],
+  ['ilikeableitem',['ILikeableItem',['../interface_sharp_v_k_1_1_types_1_1_i_likeable_item.html',1,'SharpVK::Types']]],
+  ['ilikeableitem_2ecs',['ILikeableItem.cs',['../_i_likeable_item_8cs.html',1,'']]],
+  ['important',['Important',['../class_sharp_v_k_1_1_types_1_1_message.html#a8d0fb9578117a562577a6bca77af0a88',1,'SharpVK::Types::Message']]],
+  ['inread',['InRead',['../class_sharp_v_k_1_1_types_1_1_conversation.html#a2393a8bb101d84769be6751e9624942d',1,'SharpVK::Types::Conversation']]],
+  ['instanse',['instanse',['../class_vk_like_site_bot_1_1_infrastructure_1_1_bot_settings.html#ae1d84748b6a2662900af1c422bf654fd',1,'VkLikeSiteBot::Infrastructure::BotSettings']]],
+  ['invitedby',['InvitedBy',['../class_sharp_v_k_1_1_types_1_1_member_info.html#afd434ff66b62357400621e1233aa17b6',1,'SharpVK::Types::MemberInfo']]],
+  ['invlidvkapirequestexception',['InvlidVkApiRequestException',['../class_sharp_v_k_1_1_invlid_vk_api_request_exception.html',1,'SharpVK.InvlidVkApiRequestException'],['../class_sharp_v_k_1_1_invlid_vk_api_request_exception.html#aea290cea47a1ade5018e07d2cd31db2a',1,'SharpVK.InvlidVkApiRequestException.InvlidVkApiRequestException()'],['../class_sharp_v_k_1_1_invlid_vk_api_request_exception.html#ad5f83fbcc299f63d92590a1fc0284154',1,'SharpVK.InvlidVkApiRequestException.InvlidVkApiRequestException(string message)'],['../class_sharp_v_k_1_1_invlid_vk_api_request_exception.html#acc6fa0025ce0be133f09cbd32c85860f',1,'SharpVK.InvlidVkApiRequestException.InvlidVkApiRequestException(string message, Exception innerException)']]],
+  ['is_5falive',['is_alive',['../class_sharp_v_k_1_1_token.html#a6e9379b84bfd73cbe3d16a18b94c6a70',1,'SharpVK::Token']]],
+  ['is_5fgroup',['is_group',['../class_sharp_v_k_1_1_token.html#a98d92419988ce7ff5e192014ba4d208f',1,'SharpVK::Token']]],
+  ['isadmin',['IsAdmin',['../class_sharp_v_k_1_1_types_1_1_group.html#a2502b83079608e7f317e8098baf661b8',1,'SharpVK.Types.Group.IsAdmin()'],['../class_sharp_v_k_1_1_types_1_1_member_info.html#a4e688b3be610969dca320c2d4d1ca664',1,'SharpVK.Types.MemberInfo.IsAdmin()']]],
+  ['isclosed',['IsClosed',['../class_sharp_v_k_1_1_types_1_1_group.html#a01adf84db980fdd4e98e64edc4725c25',1,'SharpVK::Types::Group']]],
+  ['isempty',['IsEmpty',['../class_sharp_v_k_1_1_types_1_1_result.html#a9a0f44cd0453299aaf5fca8a92a257bc',1,'SharpVK::Types::Result']]],
+  ['iserror',['IsError',['../class_sharp_v_k_1_1_types_1_1_result.html#a171f5a35fa7165a4b5de883eda546343',1,'SharpVK::Types::Result']]],
+  ['ishidden',['IsHidden',['../class_sharp_v_k_1_1_types_1_1_message.html#a590c2ee3649051bafab3c84884d60719',1,'SharpVK::Types::Message']]],
+  ['ishq',['IsHq',['../class_sharp_v_k_1_1_types_1_1_audio.html#a5b7f9794f90e9d6ce4fe56c02fc0dd3a',1,'SharpVK::Types::Audio']]],
+  ['isiteauthorizer',['ISiteAuthorizer',['../interface_vk_like_site_bot_1_1_interfaces_1_1_i_site_authorizer.html',1,'VkLikeSiteBot::Interfaces']]],
+  ['isiteauthorizer_2ecs',['ISiteAuthorizer.cs',['../_i_site_authorizer_8cs.html',1,'']]],
+  ['isiteclient',['ISiteClient',['../interface_vk_like_site_bot_1_1_interfaces_1_1_i_site_client.html',1,'VkLikeSiteBot::Interfaces']]],
+  ['isiteclient_2ecs',['ISiteClient.cs',['../_i_site_client_8cs.html',1,'']]],
+  ['ismember',['IsMember',['../class_sharp_v_k_1_1_types_1_1_group.html#aa9bb24f9cab02a16dbc98422ab61313e',1,'SharpVK::Types::Group']]],
+  ['ispinned',['IsPinned',['../class_sharp_v_k_1_1_types_1_1_wall_post.html#ac0dbebea71f0c3f37a58c051fd4f5f35',1,'SharpVK::Types::WallPost']]],
+  ['items',['Items',['../class_sharp_v_k_1_1_types_1_1_response_array.html#a5129a6a60df19e9a8625d7fa070f5751',1,'SharpVK::Types::ResponseArray']]]
+];

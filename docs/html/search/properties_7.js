@@ -1,0 +1,15 @@
+var searchData=
+[
+  ['id',['Id',['../class_sharp_v_k_1_1_types_1_1_attachment_photo.html#ae1a4de472eefbf1f050322d428c708f6',1,'SharpVK.Types.AttachmentPhoto.Id()'],['../class_sharp_v_k_1_1_types_1_1_audio.html#ac493b8d69f786d0e4e675d1a5d70e262',1,'SharpVK.Types.Audio.Id()'],['../class_sharp_v_k_1_1_types_1_1_document.html#a37f82e4f25b7347083c987bddc90c112',1,'SharpVK.Types.Document.Id()'],['../class_sharp_v_k_1_1_types_1_1_empty_attach.html#a9a09cbde0d1f01ce6db1ff86ab27fac3',1,'SharpVK.Types.EmptyAttach.Id()'],['../class_sharp_v_k_1_1_types_1_1_group.html#a11f9df31eb821df480e20671a1f2a146',1,'SharpVK.Types.Group.Id()'],['../interface_sharp_v_k_1_1_types_1_1_i_likeable_item.html#af93aa5b7bc70d73e4c3350f52a84c8bf',1,'SharpVK.Types.ILikeableItem.Id()'],['../class_sharp_v_k_1_1_types_1_1_message.html#abab7305ff97e64226395fd41290b6d83',1,'SharpVK.Types.Message.Id()'],['../class_sharp_v_k_1_1_types_1_1_peer.html#ab6aff57546b9d814651aa36505805d40',1,'SharpVK.Types.Peer.Id()'],['../class_sharp_v_k_1_1_types_1_1_profile.html#abb9fe84b31208751bb60d11d6b6e2d3f',1,'SharpVK.Types.Profile.Id()'],['../class_sharp_v_k_1_1_types_1_1_video.html#a3671f92fdbc6b3768d3a60ee7547ab98',1,'SharpVK.Types.Video.Id()'],['../class_sharp_v_k_1_1_types_1_1_wall_post.html#afcb5b2e3b8138cbf3f12e9d0fe9d4c58',1,'SharpVK.Types.WallPost.Id()']]],
+  ['important',['Important',['../class_sharp_v_k_1_1_types_1_1_message.html#a8d0fb9578117a562577a6bca77af0a88',1,'SharpVK::Types::Message']]],
+  ['inread',['InRead',['../class_sharp_v_k_1_1_types_1_1_conversation.html#a2393a8bb101d84769be6751e9624942d',1,'SharpVK::Types::Conversation']]],
+  ['invitedby',['InvitedBy',['../class_sharp_v_k_1_1_types_1_1_member_info.html#afd434ff66b62357400621e1233aa17b6',1,'SharpVK::Types::MemberInfo']]],
+  ['is_5falive',['is_alive',['../class_sharp_v_k_1_1_token.html#a6e9379b84bfd73cbe3d16a18b94c6a70',1,'SharpVK::Token']]],
+  ['isadmin',['IsAdmin',['../class_sharp_v_k_1_1_types_1_1_group.html#a2502b83079608e7f317e8098baf661b8',1,'SharpVK.Types.Group.IsAdmin()'],['../class_sharp_v_k_1_1_types_1_1_member_info.html#a4e688b3be610969dca320c2d4d1ca664',1,'SharpVK.Types.MemberInfo.IsAdmin()']]],
+  ['isclosed',['IsClosed',['../class_sharp_v_k_1_1_types_1_1_group.html#a01adf84db980fdd4e98e64edc4725c25',1,'SharpVK::Types::Group']]],
+  ['ishidden',['IsHidden',['../class_sharp_v_k_1_1_types_1_1_message.html#a590c2ee3649051bafab3c84884d60719',1,'SharpVK::Types::Message']]],
+  ['ishq',['IsHq',['../class_sharp_v_k_1_1_types_1_1_audio.html#a5b7f9794f90e9d6ce4fe56c02fc0dd3a',1,'SharpVK::Types::Audio']]],
+  ['ismember',['IsMember',['../class_sharp_v_k_1_1_types_1_1_group.html#aa9bb24f9cab02a16dbc98422ab61313e',1,'SharpVK::Types::Group']]],
+  ['ispinned',['IsPinned',['../class_sharp_v_k_1_1_types_1_1_wall_post.html#ac0dbebea71f0c3f37a58c051fd4f5f35',1,'SharpVK::Types::WallPost']]],
+  ['items',['Items',['../class_sharp_v_k_1_1_types_1_1_response_array.html#a5129a6a60df19e9a8625d7fa070f5751',1,'SharpVK::Types::ResponseArray']]]
+];

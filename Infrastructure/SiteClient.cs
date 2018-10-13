@@ -5,18 +5,15 @@
     @date       17-07-2018
     @version    1.13.37
 \par Использует классы: 
-    @ref        SiteParser
-    @ref        Authorizer
-    @ref        Regex
-    @ref        List<T>
-    @ref        HttpRequestMessage
-    @ref        Uri
-    @ref        HttpResponseMessage
-    @ref        MatchCollection
-    @ref        HttpClient
-    @ref        SiteUserContext
+-   @ref        SiteParser
+-   @ref        Authorizer
+-   @ref        SiteUserContext
+-   @ref        IBotTask
+-   @ref        BotJoinTask
+-   @ref        BotLikeTask
+-   @ref        BotFriendshipTask
 \par Содержит классы:
-    @ref        SiteClient
+-   @ref        SiteClient
 */
 using System;
 using System.Net;
@@ -90,9 +87,10 @@ namespace VkLikeSiteBot.Infrastructure
         }
 
         /**
-            @brief  конструктор
-            @param  Информация о пользователе сайиа
-            @return
+            @brief  Получение страницы с задачами
+            @param  урл страницы
+            @param  http метод
+            @return html страницы
          */
         private string RecieveTaskPage(string uri, HttpMethod method)
         {
@@ -115,9 +113,8 @@ namespace VkLikeSiteBot.Infrastructure
         }
 
         /**
-            @brief  конструктор
-            @param  Информация о пользователе сайиа
-            @return
+            @brief  Получение задачи на вступление
+            @return Задача на вступление
          */
         private BotJoinTask ReciveJoinTask()
         {
@@ -126,9 +123,8 @@ namespace VkLikeSiteBot.Infrastructure
         }
 
         /**
-            @brief  конструктор
-            @param  Информация о пользователе сайиа
-            @return
+            @brief  Получение задачи на лайк
+            @return Задача на лайк
          */
         private BotLikeTask ReciveLikeTask()
         {
@@ -148,9 +144,8 @@ namespace VkLikeSiteBot.Infrastructure
         }
 
         /**
-            @brief  конструктор
-            @param  Информация о пользователе сайиа
-            @return
+            @brief  Получение задачи на добавление в друзья
+            @return Задачи на добавление в друзья
          */
         private BotFriendshipTask RecieveFriendsTaskPage()
         {
@@ -171,9 +166,9 @@ namespace VkLikeSiteBot.Infrastructure
         }
 
         /**
-            @brief  конструктор
-            @param  Информация о пользователе сайиа
-            @return
+            @brief  Проверка стаатуса задачи
+            @param  Задача
+            @return Результат проверки
          */
         public Result<bool> CheckTask(IBotTask task)
         {
@@ -188,9 +183,9 @@ namespace VkLikeSiteBot.Infrastructure
         }
 
         /**
-            @brief  конструктор
-            @param  Информация о пользователе сайиа
-            @return
+            @brief  Отказ от задачи
+            @param  Задача
+            @return Строка с ответом
          */
         public string RefuseTask(IBotTask task)
         {

@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.14"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>VkLikeSiteBot: Исходный файл F:/Егор/projects/dotnet/VkLikeSiteBot/sharpvk/types/WallPost.cs</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">VkLikeSiteBot
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.14 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_7a5777895613dc18136f5770795a69a9.html">sharpvk</a></li><li class="navelem"><a class="el" href="dir_28505b50869c41ce1ad4126cb43d42c6.html">types</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">WallPost.cs</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="_wall_post_8cs.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_system.html">System</a>;</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">using</span> Newtonsoft.Json;</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_system.html">System</a>.Globalization;</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_system.html">System</a>.Collections.Generic;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using</span> Newtonsoft.Json.Converters;</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_sharp_v_k.html">SharpVK</a>.Types</div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div><div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html">   11</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="class_sharp_v_k_1_1_types_1_1_wall_post.html">WallPost</a> : <a class="code" href="interface_sharp_v_k_1_1_types_1_1_i_likeable_item.html">ILikeableItem</a></div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    {</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        [JsonProperty(<span class="stringliteral">&quot;id&quot;</span>, Required = Required.Always)]</div><div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html#afcb5b2e3b8138cbf3f12e9d0fe9d4c58">   14</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">int</span> Id { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        [JsonProperty(<span class="stringliteral">&quot;owner_id&quot;</span>, Required = Required.Always)]</div><div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html#af3c91a825b777de4065a1692a0824b1f">   17</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">int</span> OwnerId { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        [JsonProperty(<span class="stringliteral">&quot;url&quot;</span>)]</div><div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html#a7c48595eb32db32096ecb6ee25f603a9">   20</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">string</span> Url { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        [JsonProperty(<span class="stringliteral">&quot;date&quot;</span>)]</div><div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html#a227eeed352078532ec1b1069196d129b">   23</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">int</span> Date { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        [JsonProperty(<span class="stringliteral">&quot;access_key&quot;</span>)]</div><div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html#a05bb06cf49f53ee15463263a93bf498a">   26</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">string</span> AccessKey { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        [JsonProperty(<span class="stringliteral">&quot;from_id&quot;</span>, Required = Required.Always)]</div><div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html#a329694d4742bdda323ee821a28fcf723">   29</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">int</span> FromId { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        [JsonProperty(<span class="stringliteral">&quot;marked_as_ads&quot;</span>)]</div><div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html#a96898c32a8a458dfde25e924080d59bd">   32</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">int</span> MarkedAsAds { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        [JsonProperty(<span class="stringliteral">&quot;post_type&quot;</span>)]</div><div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html#a02a02b3dd32850d7b1fc49de9cb7fda2">   35</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">string</span> PostType { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        [JsonProperty(<span class="stringliteral">&quot;text&quot;</span>, Required = Required.Always)]</div><div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html#aea9f0ad8375caafa43d0e59c60ea1606">   38</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">string</span> Text { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        [JsonProperty(<span class="stringliteral">&quot;is_pinned&quot;</span>)]</div><div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html#ac0dbebea71f0c3f37a58c051fd4f5f35">   41</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">int</span> IsPinned { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        [JsonProperty(<span class="stringliteral">&quot;attachments&quot;</span>)]</div><div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html#a76fc6a943943aeecca674b02a247c373">   44</a></span>&#160;        <span class="keyword">public</span> List&lt;Attachment&gt; Attachments { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        [JsonProperty(<span class="stringliteral">&quot;post_source&quot;</span>)]</div><div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html#ad3223a0d89fa820958ee4c19abc481f1">   47</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_sharp_v_k_1_1_types_1_1_post_source.html">PostSource</a> <a class="code" href="class_sharp_v_k_1_1_types_1_1_post_source.html">PostSource</a> { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        [JsonProperty(<span class="stringliteral">&quot;comments&quot;</span>)]</div><div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html#a65a6ede165cdcc13d23eec3f5cb09d16">   50</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_sharp_v_k_1_1_types_1_1_comments.html">Comments</a> <a class="code" href="class_sharp_v_k_1_1_types_1_1_comments.html">Comments</a> { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        [JsonProperty(<span class="stringliteral">&quot;likes&quot;</span>)]</div><div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html#a77e4c93fabe042d9df48063351cbf4c7">   53</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_sharp_v_k_1_1_types_1_1_likes.html">Likes</a> <a class="code" href="class_sharp_v_k_1_1_types_1_1_likes.html">Likes</a> { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        [JsonProperty(<span class="stringliteral">&quot;reposts&quot;</span>, Required = Required.Always)]</div><div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html#ad55ceb3973e1b2d0bfe3360af66a01af">   56</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_sharp_v_k_1_1_types_1_1_reposts.html">Reposts</a> <a class="code" href="class_sharp_v_k_1_1_types_1_1_reposts.html">Reposts</a> { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        [JsonProperty(<span class="stringliteral">&quot;views&quot;</span>)]</div><div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_types_1_1_wall_post.html#a55d347b85089d5247609dda9018ec5fa">   59</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_sharp_v_k_1_1_types_1_1_views.html">Views</a> <a class="code" href="class_sharp_v_k_1_1_types_1_1_views.html">Views</a> { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div><div class="ttc" id="interface_sharp_v_k_1_1_types_1_1_i_likeable_item_html"><div class="ttname"><a href="interface_sharp_v_k_1_1_types_1_1_i_likeable_item.html">SharpVK.Types.ILikeableItem</a></div><div class="ttdef"><b>Definition:</b> <a href="_i_likeable_item_8cs_source.html#l00007">ILikeableItem.cs:7</a></div></div>
+<div class="ttc" id="namespace_system_html"><div class="ttname"><a href="namespace_system.html">System</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_types_1_1_likes_html"><div class="ttname"><a href="class_sharp_v_k_1_1_types_1_1_likes.html">SharpVK.Types.Likes</a></div><div class="ttdef"><b>Definition:</b> <a href="_likes_8cs_source.html#l00011">Likes.cs:11</a></div></div>
+<div class="ttc" id="namespace_sharp_v_k_html"><div class="ttname"><a href="namespace_sharp_v_k.html">SharpVK</a></div><div class="ttdef"><b>Definition:</b> <a href="_api_client_8cs_source.html#l00007">ApiClient.cs:7</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_types_1_1_views_html"><div class="ttname"><a href="class_sharp_v_k_1_1_types_1_1_views.html">SharpVK.Types.Views</a></div><div class="ttdef"><b>Definition:</b> <a href="_views_8cs_source.html#l00011">Views.cs:11</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_types_1_1_reposts_html"><div class="ttname"><a href="class_sharp_v_k_1_1_types_1_1_reposts.html">SharpVK.Types.Reposts</a></div><div class="ttdef"><b>Definition:</b> <a href="_reposts_8cs_source.html#l00011">Reposts.cs:11</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_types_1_1_post_source_html"><div class="ttname"><a href="class_sharp_v_k_1_1_types_1_1_post_source.html">SharpVK.Types.PostSource</a></div><div class="ttdef"><b>Definition:</b> <a href="_post_source_8cs_source.html#l00011">PostSource.cs:11</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_types_1_1_wall_post_html"><div class="ttname"><a href="class_sharp_v_k_1_1_types_1_1_wall_post.html">SharpVK.Types.WallPost</a></div><div class="ttdef"><b>Definition:</b> <a href="_wall_post_8cs_source.html#l00011">WallPost.cs:11</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_types_1_1_comments_html"><div class="ttname"><a href="class_sharp_v_k_1_1_types_1_1_comments.html">SharpVK.Types.Comments</a></div><div class="ttdef"><b>Definition:</b> <a href="_comments_8cs_source.html#l00011">Comments.cs:11</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.14
+</small></address>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.14"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>VkLikeSiteBot: Исходный файл F:/Егор/projects/dotnet/VkLikeSiteBot/sharpvk/PaceController.cs</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">VkLikeSiteBot
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.14 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_7a5777895613dc18136f5770795a69a9.html">sharpvk</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">PaceController.cs</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="_pace_controller_8cs.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_system.html">System</a>;</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">using</span> <a class="code" href="namespace_system.html">System</a>.Threading;</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_sharp_v_k.html">SharpVK</a></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div><div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_pace_controller.html">    8</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">class </span><a class="code" href="class_sharp_v_k_1_1_pace_controller.html">PaceController</a></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    {</div><div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_pace_controller.html#adbbe09709a209f535f9fb7e851980351">   10</a></span>&#160;        DateTime <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#adbbe09709a209f535f9fb7e851980351">last_time</a> = DateTime.UtcNow;</div><div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_pace_controller.html#a1d881771d4cd1203f541c988794b6cfc">   11</a></span>&#160;        <a class="code" href="class_sharp_v_k_1_1_counted_semaphore.html">CountedSemaphore</a> <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#a1d881771d4cd1203f541c988794b6cfc">sem</a>;</div><div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_pace_controller.html#a2af87d306b0e4f59f1f98d1cfd234a16">   12</a></span>&#160;        Timer <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#a2af87d306b0e4f59f1f98d1cfd234a16">timer</a>;</div><div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_pace_controller.html#a04b09796c17a3fc08589257d3b7c7b77">   13</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#a04b09796c17a3fc08589257d3b7c7b77">pace</a>;</div><div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_pace_controller.html#af37f5633fa3a9412782a3fb9c19cd865">   14</a></span>&#160;        <span class="keywordtype">int</span> <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#af37f5633fa3a9412782a3fb9c19cd865">max</a>;</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div><div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_pace_controller.html#ae293482079b4d8360b8b8029b0d983c5">   17</a></span>&#160;        <span class="keyword">public</span> <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#ae293482079b4d8360b8b8029b0d983c5">PaceController</a>(<span class="keywordtype">int</span> <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#af37f5633fa3a9412782a3fb9c19cd865">max</a>, <span class="keywordtype">int</span> <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#a04b09796c17a3fc08589257d3b7c7b77">pace</a>)</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        {</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            this.max = <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#af37f5633fa3a9412782a3fb9c19cd865">max</a>;</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            this.pace = <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#a04b09796c17a3fc08589257d3b7c7b77">pace</a>;</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#a1d881771d4cd1203f541c988794b6cfc">sem</a> = <span class="keyword">new</span> <a class="code" href="class_sharp_v_k_1_1_counted_semaphore.html">CountedSemaphore</a>(<a class="code" href="class_sharp_v_k_1_1_pace_controller.html#af37f5633fa3a9412782a3fb9c19cd865">max</a>, <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#af37f5633fa3a9412782a3fb9c19cd865">max</a>);</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            </div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            TimerCallback tc = <span class="keyword">new</span> TimerCallback(<a class="code" href="class_sharp_v_k_1_1_pace_controller.html#ab26c20091ccdbf160d73f9a43de54698">Release</a>);</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#a2af87d306b0e4f59f1f98d1cfd234a16">timer</a> = <span class="keyword">new</span> Timer(tc, null, <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#a04b09796c17a3fc08589257d3b7c7b77">pace</a>, <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#a04b09796c17a3fc08589257d3b7c7b77">pace</a>);</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        }</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div><div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_pace_controller.html#a735fc51155d2afd6918fce705da5b517">   28</a></span>&#160;        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#a735fc51155d2afd6918fce705da5b517">Sieze</a>()</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        {</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#a1d881771d4cd1203f541c988794b6cfc">sem</a>.<a class="code" href="class_sharp_v_k_1_1_counted_semaphore.html#a2968f580ac343f923d1dda5a45c017c4">WaitOne</a>();</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        }</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div><div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="class_sharp_v_k_1_1_pace_controller.html#ab26c20091ccdbf160d73f9a43de54698">   34</a></span>&#160;        <span class="keyword">private</span> <span class="keywordtype">void</span> <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#ab26c20091ccdbf160d73f9a43de54698">Release</a>(<span class="keywordtype">object</span> obj)</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        {</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="comment">//Console.WriteLine($&quot;semaphore released: {DateTime.UtcNow}&quot;);</span></div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            <a class="code" href="class_sharp_v_k_1_1_pace_controller.html#a1d881771d4cd1203f541c988794b6cfc">sem</a>.<a class="code" href="class_sharp_v_k_1_1_counted_semaphore.html#aa276c8cc400504f66054cbd9badee4c5">ReleaseAll</a>();</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        }</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    }</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div><div class="ttc" id="class_sharp_v_k_1_1_pace_controller_html_a1d881771d4cd1203f541c988794b6cfc"><div class="ttname"><a href="class_sharp_v_k_1_1_pace_controller.html#a1d881771d4cd1203f541c988794b6cfc">SharpVK.PaceController.sem</a></div><div class="ttdeci">CountedSemaphore sem</div><div class="ttdef"><b>Definition:</b> <a href="_pace_controller_8cs_source.html#l00011">PaceController.cs:11</a></div></div>
+<div class="ttc" id="namespace_system_html"><div class="ttname"><a href="namespace_system.html">System</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_pace_controller_html_a2af87d306b0e4f59f1f98d1cfd234a16"><div class="ttname"><a href="class_sharp_v_k_1_1_pace_controller.html#a2af87d306b0e4f59f1f98d1cfd234a16">SharpVK.PaceController.timer</a></div><div class="ttdeci">Timer timer</div><div class="ttdef"><b>Definition:</b> <a href="_pace_controller_8cs_source.html#l00012">PaceController.cs:12</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_pace_controller_html_a04b09796c17a3fc08589257d3b7c7b77"><div class="ttname"><a href="class_sharp_v_k_1_1_pace_controller.html#a04b09796c17a3fc08589257d3b7c7b77">SharpVK.PaceController.pace</a></div><div class="ttdeci">int pace</div><div class="ttdef"><b>Definition:</b> <a href="_pace_controller_8cs_source.html#l00013">PaceController.cs:13</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_pace_controller_html_ae293482079b4d8360b8b8029b0d983c5"><div class="ttname"><a href="class_sharp_v_k_1_1_pace_controller.html#ae293482079b4d8360b8b8029b0d983c5">SharpVK.PaceController.PaceController</a></div><div class="ttdeci">PaceController(int max, int pace)</div><div class="ttdef"><b>Definition:</b> <a href="_pace_controller_8cs_source.html#l00017">PaceController.cs:17</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_pace_controller_html_adbbe09709a209f535f9fb7e851980351"><div class="ttname"><a href="class_sharp_v_k_1_1_pace_controller.html#adbbe09709a209f535f9fb7e851980351">SharpVK.PaceController.last_time</a></div><div class="ttdeci">DateTime last_time</div><div class="ttdef"><b>Definition:</b> <a href="_pace_controller_8cs_source.html#l00010">PaceController.cs:10</a></div></div>
+<div class="ttc" id="namespace_sharp_v_k_html"><div class="ttname"><a href="namespace_sharp_v_k.html">SharpVK</a></div><div class="ttdef"><b>Definition:</b> <a href="_api_client_8cs_source.html#l00007">ApiClient.cs:7</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_counted_semaphore_html"><div class="ttname"><a href="class_sharp_v_k_1_1_counted_semaphore.html">SharpVK.CountedSemaphore</a></div><div class="ttdef"><b>Definition:</b> <a href="_counted_semaphore_8cs_source.html#l00007">CountedSemaphore.cs:7</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_pace_controller_html_a735fc51155d2afd6918fce705da5b517"><div class="ttname"><a href="class_sharp_v_k_1_1_pace_controller.html#a735fc51155d2afd6918fce705da5b517">SharpVK.PaceController.Sieze</a></div><div class="ttdeci">void Sieze()</div><div class="ttdef"><b>Definition:</b> <a href="_pace_controller_8cs_source.html#l00028">PaceController.cs:28</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_pace_controller_html"><div class="ttname"><a href="class_sharp_v_k_1_1_pace_controller.html">SharpVK.PaceController</a></div><div class="ttdef"><b>Definition:</b> <a href="_pace_controller_8cs_source.html#l00008">PaceController.cs:8</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_pace_controller_html_af37f5633fa3a9412782a3fb9c19cd865"><div class="ttname"><a href="class_sharp_v_k_1_1_pace_controller.html#af37f5633fa3a9412782a3fb9c19cd865">SharpVK.PaceController.max</a></div><div class="ttdeci">int max</div><div class="ttdef"><b>Definition:</b> <a href="_pace_controller_8cs_source.html#l00014">PaceController.cs:14</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_counted_semaphore_html_aa276c8cc400504f66054cbd9badee4c5"><div class="ttname"><a href="class_sharp_v_k_1_1_counted_semaphore.html#aa276c8cc400504f66054cbd9badee4c5">SharpVK.CountedSemaphore.ReleaseAll</a></div><div class="ttdeci">bool ReleaseAll()</div><div class="ttdef"><b>Definition:</b> <a href="_counted_semaphore_8cs_source.html#l00053">CountedSemaphore.cs:53</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_pace_controller_html_ab26c20091ccdbf160d73f9a43de54698"><div class="ttname"><a href="class_sharp_v_k_1_1_pace_controller.html#ab26c20091ccdbf160d73f9a43de54698">SharpVK.PaceController.Release</a></div><div class="ttdeci">void Release(object obj)</div><div class="ttdef"><b>Definition:</b> <a href="_pace_controller_8cs_source.html#l00034">PaceController.cs:34</a></div></div>
+<div class="ttc" id="class_sharp_v_k_1_1_counted_semaphore_html_a2968f580ac343f923d1dda5a45c017c4"><div class="ttname"><a href="class_sharp_v_k_1_1_counted_semaphore.html#a2968f580ac343f923d1dda5a45c017c4">SharpVK.CountedSemaphore.WaitOne</a></div><div class="ttdeci">void WaitOne()</div><div class="ttdef"><b>Definition:</b> <a href="_counted_semaphore_8cs_source.html#l00023">CountedSemaphore.cs:23</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.14
+</small></address>
+</body>
+</html>
