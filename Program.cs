@@ -14,7 +14,7 @@ namespace VkLikeSiteBot
         static void Start()
         {
             //Logger logger = LogManager.GetCurrentClassLogger();
-            BotSettings settings = BotSettings.GetSettings();
+            BotSettings settings = BotSettings.Instance;
             List<Bot> bots = new List<Bot>();
 
             for (int i = 0; i < settings.Users.Length; i++)

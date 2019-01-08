@@ -13,34 +13,48 @@ namespace VkLikeSiteBot.Infrastructure
 
     public class BotSettings
     {
-        public static string path = Directory.GetCurrentDirectory()+"/data/botconfig.json";
+        private static BotSettings _instance;
+        private static string _path = Directory.GetCurrentDirectory() + "/data/botconfig.json";
 
-        private static readonly BotSettings instanse = LoadConfigs(path);
+        
+        public static BotSettings Instance
+        {
+            get 
+            {
+                if(_instance == null)
+                    _instance = LoadConfigs(_path);
+
+                return _instance;
+            }
+        }
 
         [JsonProperty("users")]
         public SiteUserContext[] Users { get; set; }
 
+        [JsonProperty("debug")]
+        public bool Debug { get; set; }
 
-        public static void SetPath(string path) => BotSettings.path = path;
 
-
-        public static BotSettings GetSettings() => instanse;
-
+        public static void SetPath(string path) => BotSettings._path = path;
 
         private static BotSettings FromJson(string json) => JsonConvert.DeserializeObject<BotSettings>(json, Converter.Settings);
-
 
         private static BotSettings LoadConfigs(string path)
         {
             BotSettings s;
 
-            if(!File.Exists(path))
+            if (!File.Exists(path))
                 throw new FileNotFoundException($"{path} not found");
 
-            using(StreamReader reader = new StreamReader(path))
+            using (StreamReader reader = new StreamReader(path))
                 s = FromJson(reader.ReadToEnd());
 
             return s;
+        }
+
+        public void ReloadConfig()
+        {
+            LoadConfigs(_path);
         }
     }
 
