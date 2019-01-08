@@ -15,7 +15,7 @@ namespace VkLikeSiteBot.Infrastructure
         private SiteParser _parser = new SiteParser();
         private Authorizer _authorizer;
         private HttpClient _httpClient;
-        private SiteUserContext _user;
+        private SiteUserContext _user;  
 
 
         public SiteClient(SiteUserContext user)
@@ -78,6 +78,10 @@ namespace VkLikeSiteBot.Infrastructure
         private BotJoinTask ReciveJoinTask()
         {
             string html = RecieveTaskPage($"{_user.Host}/auth.php", HttpMethod.Get);
+
+            if (BotSettings.Instance.Debug)
+                Console.WriteLine(html);
+
             return _parser.ParseJoinTask(html);
         }
 
@@ -88,6 +92,9 @@ namespace VkLikeSiteBot.Infrastructure
 
             string html = RecieveTaskPage(uri, HttpMethod.Post);
             string authUrl = _parser.ParseAutharization(html);
+
+            if (BotSettings.Instance.Debug)
+                Console.WriteLine(html);
 
             if (authUrl != null)
             {
