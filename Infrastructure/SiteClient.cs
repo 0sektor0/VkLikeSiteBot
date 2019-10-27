@@ -15,18 +15,24 @@ namespace VkLikeSiteBot.Infrastructure
         private SiteParser _parser = new SiteParser();
         private Authorizer _authorizer;
         private HttpClient _httpClient;
-        private SiteUserContext _user;  
+        private SiteUserContext _user;
 
 
         public SiteClient(SiteUserContext user)
         {
             _user = user;
 
+            /*WebProxy proxy = new WebProxy()
+            {
+                Address = new Uri("http://78.47.157.159:80"),
+            };*/
+
             HttpClientHandler handler = new HttpClientHandler
             {
                 AllowAutoRedirect = true,
                 UseCookies = true,
-                CookieContainer = new CookieContainer()
+                CookieContainer = new CookieContainer(),
+                //Proxy = proxy
             };
 
             _httpClient = new HttpClient(handler);
@@ -70,8 +76,15 @@ namespace VkLikeSiteBot.Infrastructure
             else
                 request.RequestUri = new Uri($"{uri}?{content}");
 
-            HttpResponseMessage response = _httpClient.SendAsync(request).Result;
-            return response.Content.ReadAsStringAsync().Result;
+            try
+            {
+                HttpResponseMessage response = _httpClient.SendAsync(request).Result;
+                return response.Content.ReadAsStringAsync().Result;
+            }
+            catch
+            {
+                return "";
+            }
         }
 
 

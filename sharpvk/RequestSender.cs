@@ -12,12 +12,12 @@ namespace SharpVK
 {
     public class RequestSender
     {
-        Token token;
+        TokenBuilder.Token token;
         string api_version = "5.80";
         PaceController pcontroller;
 
 
-        public RequestSender(Token token, int max_requests)
+        public RequestSender(TokenBuilder.Token token, int max_requests)
         {
             this.token = token;
             pcontroller = new PaceController(max_requests, 3000);

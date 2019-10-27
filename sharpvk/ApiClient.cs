@@ -11,7 +11,7 @@ namespace SharpVK
         private RequestSender _sender;
 
 
-        public ApiClient(Token t, int maxReqCount)
+        public ApiClient(TokenBuilder.Token t, int maxReqCount)
         {
             _sender = new RequestSender(t, maxReqCount);
         }

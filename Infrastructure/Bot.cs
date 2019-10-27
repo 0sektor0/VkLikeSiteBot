@@ -26,7 +26,8 @@ namespace VkLikeSiteBot.Infrastructure
             _siteUser = siteUser;
             _siteClient = new SiteClient(siteUser);
 
-            Token t = new Token(siteUser.Login, siteUser.Pass, 274556);
+            TokenBuilder.Token t = new TokenBuilder.Token(siteUser.Login, siteUser.Pass, 
+                270460, 5635484);
             _vkClient = new ApiClient(t, 3);
         }
 
